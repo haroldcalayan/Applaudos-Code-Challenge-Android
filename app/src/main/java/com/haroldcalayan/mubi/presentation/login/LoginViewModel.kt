@@ -1,10 +1,11 @@
-package com.haroldcalayan.mubi.presentation.login_activity
+package com.haroldcalayan.mubi.presentation.login
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.haroldcalayan.mubi.presentation.main_activity.state.PopularMoviesState
+import com.haroldcalayan.mubi.common.Constants
+import com.haroldcalayan.mubi.presentation.main.state.PopularMoviesState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,7 +23,7 @@ class LoginViewModel @Inject constructor() : ViewModel() {
 
     init {
         viewModelScope.launch {
-            delay(3000)
+            delay(Constants.SPLASH_SCREEN_LIFE)
             _isLoading.value = false
         }
     }
