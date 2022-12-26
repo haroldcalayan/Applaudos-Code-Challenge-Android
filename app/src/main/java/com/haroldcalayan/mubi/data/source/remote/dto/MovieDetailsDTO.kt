@@ -1,4 +1,4 @@
-package com.heroappsdev.mubiapp.data.remote.dto
+package com.haroldcalayan.mubi.data.source.remote.dto
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
