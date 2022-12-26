@@ -1,9 +1,10 @@
 package com.haroldcalayan.mubi.data.repository
 
+import com.haroldcalayan.mubi.common.base.BaseRepository
 import com.haroldcalayan.mubi.data.source.remote.TMDBApi
-import com.heroappsdev.mubiapp.data.remote.dto.MovieDetailsDTO
-import com.heroappsdev.mubiapp.data.remote.dto.MoviesDTO
-import com.heroappsdev.mubiapp.data.remote.dto.TVDetailsDTO
+import com.haroldcalayan.mubi.data.source.remote.dto.MovieDetailsDTO
+import com.haroldcalayan.mubi.data.source.remote.dto.MoviesDTO
+import com.haroldcalayan.mubi.data.source.remote.dto.TVDetailsDTO
 
 interface MovieRepository {
     suspend fun getPopularMovies(): MoviesDTO
@@ -16,7 +17,7 @@ interface MovieRepository {
 
 class MovieRepositoryImpl(
     private val api: TMDBApi
-) : MovieRepository {
+) : BaseRepository(), MovieRepository {
     override suspend fun getPopularMovies(): MoviesDTO {
         return api.getPopularMovies()
     }
