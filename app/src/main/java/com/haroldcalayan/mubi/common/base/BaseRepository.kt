@@ -1,3 +1,3 @@
-package com.haroldcalayan.starships.common.base
+package com.haroldcalayan.mubi.common.base
 
 abstract class BaseRepository
