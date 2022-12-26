@@ -1,4 +1,4 @@
-package com.haroldcalayan.mubi.presentation.main_activity.movie_details
+package com.haroldcalayan.mubi.presentation.main.movie_details
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.haroldcalayan.mubi.common.Response
 import com.haroldcalayan.mubi.domain.use_case.GetMovieDetailsUseCase
-import com.haroldcalayan.mubi.presentation.main_activity.state.MovieDetailState
+import com.haroldcalayan.mubi.presentation.main.state.MovieDetailState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

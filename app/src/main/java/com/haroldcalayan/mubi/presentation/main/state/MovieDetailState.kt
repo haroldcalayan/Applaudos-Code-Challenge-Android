@@ -1,6 +1,6 @@
-package com.haroldcalayan.mubi.presentation.main_activity.state
+package com.haroldcalayan.mubi.presentation.main.state
 
-import com.heroappsdev.mubiapp.data.remote.dto.MovieDetailsDTO
+import com.haroldcalayan.mubi.data.source.remote.dto.MovieDetailsDTO
 
 data class MovieDetailState(
     val isLoading: Boolean = false,

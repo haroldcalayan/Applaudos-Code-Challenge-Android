@@ -1,4 +1,4 @@
-package com.haroldcalayan.mubi.presentation.main_activity.movie_details
+package com.haroldcalayan.mubi.presentation.main.movie_details
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
