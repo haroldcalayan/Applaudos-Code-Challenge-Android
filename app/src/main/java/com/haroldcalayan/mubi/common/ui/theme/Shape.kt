@@ -1,4 +1,4 @@
-package com.haroldcalayan.mubi.ui.theme
+package com.haroldcalayan.mubi.common.ui.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes
