@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.Mubi" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primaryDark</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -22,4 +22,11 @@
     <style name="Theme.Mubi.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Mubi.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Theme.Mubi.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#6243FF</item>
+        <item name="android:windowBackground">@drawable/splash_logo</item>
+        <item name="postSplashScreenTheme">@style/Theme.Mubi</item>
+    </style>
+
 </resources>
