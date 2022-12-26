@@ -1,9 +1,9 @@
-package com.haroldcalayan.mubi.data.remote
+package com.haroldcalayan.mubi.data.source.remote
 
 import com.haroldcalayan.mubi.BuildConfig
-import com.heroappsdev.mubiapp.data.remote.dto.MovieDetailsDTO
-import com.heroappsdev.mubiapp.data.remote.dto.MoviesDTO
-import com.heroappsdev.mubiapp.data.remote.dto.TVDetailsDTO
+import com.haroldcalayan.mubi.data.source.remote.dto.MovieDetailsDTO
+import com.haroldcalayan.mubi.data.source.remote.dto.MoviesDTO
+import com.haroldcalayan.mubi.data.source.remote.dto.TVDetailsDTO
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
