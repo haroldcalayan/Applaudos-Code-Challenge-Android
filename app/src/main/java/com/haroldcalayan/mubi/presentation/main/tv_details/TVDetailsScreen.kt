@@ -1,4 +1,4 @@
-package com.haroldcalayan.mubi.presentation.main_activity.tv_details
+package com.haroldcalayan.mubi.presentation.main.tv_details
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.coil.rememberCoilPainter
-import com.haroldcalayan.mubi.common.Constants
+import com.haroldcalayan.mubi.BuildConfig
 
 @Composable
 fun TVDetailsScreen(
@@ -18,7 +18,7 @@ fun TVDetailsScreen(
 
     Column {
         Image(
-            painter = rememberCoilPainter(request = Constants.BASE_IMAGE_URL + state.value.tv?.posterPath),
+            painter = rememberCoilPainter(request = BuildConfig.BASE_IMAGE_URL + state.value.tv?.posterPath),
             contentDescription = "Movie"
         )
         Text(
