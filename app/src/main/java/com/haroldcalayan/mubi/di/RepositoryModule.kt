@@ -1,8 +1,8 @@
-package com.haroldcalayan.starships.di
+package com.haroldcalayan.mubi.di
 
-import com.haroldcalayan.starships.data.repository.StarwarsRepository
-import com.haroldcalayan.starships.data.repository.StarwarsRepositoryImpl
-import com.haroldcalayan.starships.data.source.remote.service.StarwarsApiService
+import com.haroldcalayan.mubi.data.repository.MovieRepository
+import com.haroldcalayan.mubi.data.repository.MovieRepositoryImpl
+import com.haroldcalayan.mubi.data.source.remote.TMDBApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,7 +15,7 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideStarwarsRepository(api: StarwarsApiService): StarwarsRepository {
-        return StarwarsRepositoryImpl(api)
+    fun provideTMDBRepository(api: TMDBApi): MovieRepository {
+        return MovieRepositoryImpl(api)
     }
 }

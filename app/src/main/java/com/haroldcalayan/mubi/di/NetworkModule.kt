@@ -1,19 +1,14 @@
-package com.heroappsdev.mubiapp.di
+package com.haroldcalayan.mubi.di
 
-import com.heroappsdev.mubiapp.common.Constants.BASE_URL
-import com.heroappsdev.mubiapp.data.remote.TMDBApi
-import com.heroappsdev.mubiapp.data.repository.MovieRepositoryImpl
-import com.heroappsdev.mubiapp.domain.repository.MovieRepository
+import com.haroldcalayan.mubi.BuildConfig
+import com.haroldcalayan.mubi.common.utils.provideMoshiApi
+import com.haroldcalayan.mubi.data.source.remote.TMDBApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.moshi.MoshiConverterFactory
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -34,28 +29,16 @@ object NetworkModule {
     @Provides
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
         val httpLoggingInterceptor = HttpLoggingInterceptor()
-        httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+        httpLoggingInterceptor.level = if (BuildConfig.DEBUG) {
+            HttpLoggingInterceptor.Level.BODY
+        } else {
+            HttpLoggingInterceptor.Level.NONE
+        }
         return httpLoggingInterceptor
     }
 
     @Provides
-    fun provideTMDBApi(
-        client: OkHttpClient
-    ): TMDBApi {
-
-        return Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create().asLenient())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
-            .client(client)
-            .build()
-            .create(TMDBApi::class.java)
+    fun provideTMDBApi(client: OkHttpClient): TMDBApi {
+        return provideMoshiApi(BuildConfig.BASE_APP_URL, client)
     }
-
-    @Provides
-    fun provideTMDBRepository(api: TMDBApi): MovieRepository {
-        return MovieRepositoryImpl(api)
-    }
-
-
 }
