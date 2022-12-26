@@ -1,4 +1,4 @@
-package com.haroldcalayan.mubi.presentation.main_activity.movie_list
+package com.haroldcalayan.mubi.presentation.main.movie_list
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -9,7 +9,7 @@ import com.haroldcalayan.mubi.domain.use_case.GetAiringTodayUseCase
 import com.haroldcalayan.mubi.domain.use_case.GetOnTvMoviesUseCase
 import com.haroldcalayan.mubi.domain.use_case.GetPopularMovieUseCase
 import com.haroldcalayan.mubi.domain.use_case.GetTopRatedMoviesUseCase
-import com.haroldcalayan.mubi.presentation.main_activity.state.PopularMoviesState
+import com.haroldcalayan.mubi.presentation.main.state.PopularMoviesState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

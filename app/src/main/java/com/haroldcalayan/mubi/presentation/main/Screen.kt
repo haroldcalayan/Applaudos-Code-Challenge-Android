@@ -1,4 +1,4 @@
-package com.haroldcalayan.mubi.presentation.main_activity
+package com.haroldcalayan.mubi.presentation.main
 
 sealed class Screen(val route: String) {
     object MovieListScreen : Screen("movie_list_screen")

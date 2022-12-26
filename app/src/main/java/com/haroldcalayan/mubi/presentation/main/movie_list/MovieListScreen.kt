@@ -1,4 +1,4 @@
-package com.haroldcalayan.mubi.presentation.main_activity.movie_list
+package com.haroldcalayan.mubi.presentation.main.movie_list
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -10,7 +10,7 @@ import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -24,13 +24,13 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.coil.rememberCoilPainter
-import com.haroldcalayan.mubi.common.Constants
+import com.haroldcalayan.mubi.BuildConfig
+import com.haroldcalayan.mubi.R
 import com.haroldcalayan.mubi.common.Constants.CATEGORY_AIRING_TODAY
 import com.haroldcalayan.mubi.common.Constants.CATEGORY_ON_TV
 import com.haroldcalayan.mubi.common.Constants.CATEGORY_POPULAR
 import com.haroldcalayan.mubi.common.Constants.CATEGORY_TOP_RATED
-import com.haroldcalayan.mubi.presentation.main_activity.Screen
-import com.haroldcalayan.mubi.R
+import com.haroldcalayan.mubi.presentation.main.Screen
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
@@ -77,7 +77,6 @@ fun MovieListScreen(
             state = rememberLazyListState(), cells = GridCells.Fixed(2)
         ) {
             items(state.value.popularMovies?.results ?: emptyList()) { movie ->
-
                 Box(
                     modifier = Modifier
                         .wrapContentSize()
@@ -114,7 +113,7 @@ fun MovieListScreen(
                                     .fillMaxSize()
                             ) {
                                 Image(
-                                    painter = rememberCoilPainter(request = Constants.BASE_IMAGE_URL + movie.posterPath),
+                                    painter = rememberCoilPainter(request = BuildConfig.BASE_IMAGE_URL + movie.posterPath),
                                     contentDescription = "Movie"
                                 )
                                 Box(
@@ -123,11 +122,10 @@ fun MovieListScreen(
                                         .padding(12.dp),
                                     contentAlignment = Alignment.BottomStart
                                 ) {
-                                    movie.title?.let { it1 ->
+                                    movie.title?.let {
                                         Text(
-                                            text = it1, style = TextStyle(
-                                                color = Color.White, fontSize = 16.sp
-                                            )
+                                            text = it,
+                                            style = TextStyle(color = Color.White, fontSize = 16.sp)
                                         )
                                     }
                                 }

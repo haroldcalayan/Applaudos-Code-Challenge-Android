@@ -1,4 +1,4 @@
-package com.haroldcalayan.mubi.presentation.main_activity
+package com.haroldcalayan.mubi.presentation.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,10 +10,10 @@ import androidx.compose.material.Surface
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.haroldcalayan.mubi.presentation.main_activity.movie_details.MovieDetailsScreen
-import com.haroldcalayan.mubi.presentation.main_activity.movie_list.MovieListScreen
-import com.haroldcalayan.mubi.presentation.main_activity.tv_details.TVDetailsScreen
-import com.haroldcalayan.mubi.ui.theme.MubiTheme
+import com.haroldcalayan.mubi.presentation.main.movie_details.MovieDetailsScreen
+import com.haroldcalayan.mubi.presentation.main.movie_list.MovieListScreen
+import com.haroldcalayan.mubi.presentation.main.tv_details.TVDetailsScreen
+import com.haroldcalayan.mubi.common.ui.theme.MubiTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
