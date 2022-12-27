@@ -1,13 +1,41 @@
+@file:OptIn(ExperimentalFoundationApi::class)
+
 package com.haroldcalayan.mubi.presentation.main.tv_details
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.coil.rememberCoilPainter
 import com.haroldcalayan.mubi.BuildConfig
+import com.haroldcalayan.mubi.R
+import java.math.BigDecimal
+import java.math.RoundingMode
+import kotlin.math.ceil
 
 @Composable
 fun TVDetailsScreen(
@@ -16,21 +44,186 @@ fun TVDetailsScreen(
 ) {
     val state = tvDetailsViewModel.state
 
-    Column {
-        Image(
-            painter = rememberCoilPainter(request = BuildConfig.BASE_IMAGE_URL + state.value.tv?.posterPath),
-            contentDescription = "Movie"
-        )
-        Text(
-            text = "Title: ${state.value.tv?.name}"
-        )
+    state.value.tv?.let { tv ->
+        Column(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp)
+            ) {
+                Image(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp),
+                    painter = rememberCoilPainter(request = BuildConfig.BASE_IMAGE_URL + tv.backdropPath),
+                    contentDescription = "Movie",
+                    contentScale = ContentScale.Crop
+                )
 
-        Text(
-            text = "Release Date: ${state.value.tv?.firstAirDate}"
-        )
-        Text(
-            text = "Ratings: ${state.value.tv?.voteAverage}"
-        )
+                Spacer(modifier = Modifier.height(10.dp))
+                Box(
+                    modifier = Modifier
+                        .background(
+                            Brush.verticalGradient(
+                                colors = listOf(
+                                    Color.Transparent, Color.Black
+                                ), startY = 300f
+                            )
+                        )
+                        .fillMaxSize()
+                )
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(5.dp),
+                    contentAlignment = Alignment.BottomStart
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(10.dp),
+                        verticalArrangement = Arrangement.Bottom
+                    ) {
+                        tv.originalName?.let {
+                            Text(
+                                text = it, style = TextStyle(
+                                    color = Color.White,
+                                    fontSize = 24.sp,
+                                )
+                            )
+                        }
+
+                        val rate by remember {
+                            mutableStateOf(
+                                BigDecimal(
+                                    5 * ((tv.voteAverage ?: 0.0) / 10.0)
+                                ).setScale(1, RoundingMode.HALF_EVEN).toDouble()
+                            )
+                        }
+
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            val maxRate = rate.toInt()
+                            val unfilledStars = (5 - ceil(rate)).toInt()
+                            val halfStar = !(rate.rem(1).equals(0.0))
+
+                            repeat(maxRate) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.baseline_star_rate),
+                                    contentDescription = "star",
+                                    tint = Color.White
+                                )
+                            }
+
+                            if (halfStar) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.baseline_star_half),
+                                    contentDescription = "star",
+                                    tint = Color.White
+                                )
+                            }
+
+                            repeat(unfilledStars) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.baseline_star_border),
+                                    contentDescription = "star",
+                                    tint = Color.White
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+            Column(
+                modifier = Modifier.padding(12.dp)
+            ) {
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(
+                    text = "Summary",
+                    fontStyle = FontStyle.Italic,
+                    style = MaterialTheme.typography.h6,
+                    color = Color.Blue
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(
+                    text = "\"${tv.overview}\""
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+            }
+
+            LazyVerticalGrid(
+                state = rememberLazyListState(),
+                cells = GridCells.Fixed(1),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                items(state.value.tv?.seasons ?: emptyList()) { season ->
+                    Box(
+                        modifier = Modifier
+                            .wrapContentSize()
+                            .padding(16.dp)
+                    ) {
+                        Card(
+                            modifier = Modifier.wrapContentSize(),
+                            shape = RoundedCornerShape(15.dp),
+                            elevation = 5.dp,
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .background(Color.White),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Image(
+                                    painter = rememberCoilPainter(request = BuildConfig.BASE_IMAGE_URL + season.posterPath),
+                                    contentDescription = "Movie",
+                                    modifier = Modifier
+                                        .width(150.dp)
+                                        .height(125.dp),
+                                    contentScale = ContentScale.Crop
+                                )
+                                Spacer(modifier = Modifier.width(12.dp))
+                                Column(
+                                    modifier = Modifier.padding(12.dp)
+                                ) {
+                                    season.name?.let {
+                                        Text(
+                                            text = it,
+                                            fontStyle = FontStyle.Italic,
+                                            style = MaterialTheme.typography.h6,
+                                            color = Color.Black
+                                        )
+                                    }
+                                    season.episodeCount?.let {
+                                        Text(
+                                            text = "$it episodes",
+                                            style = TextStyle(color = Color.Blue, fontSize = 16.sp),
+                                            color = Color.Blue
+                                        )
+                                    }
+                                    season.overview?.let {
+                                        Text(
+                                            text = it,
+                                            style = TextStyle(
+                                                color = Color.Black,
+                                                fontSize = 12.sp
+                                            ),
+                                            maxLines = 3,
+                                            overflow = TextOverflow.Ellipsis
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
-
 }
+
+
