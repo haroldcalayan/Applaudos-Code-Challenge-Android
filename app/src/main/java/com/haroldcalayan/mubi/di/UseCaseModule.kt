@@ -47,4 +47,22 @@ object UseCaseModule {
     fun provideGetTVDetailUseCase(repository: MovieRepository): GetTVDetailUseCase {
         return GetTVDetailUseCase(repository)
     }
+
+    @Provides
+    @Singleton
+    fun provideRequestTokenUseCase(repository: MovieRepository): GetRequestTokenUseCase {
+        return GetRequestTokenUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSeasonDetailsUseCase(repository: MovieRepository): GetSeasonDetailsUseCase {
+        return GetSeasonDetailsUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSearchResultUseCase(repository: MovieRepository): GetSearchResultUseCase {
+        return GetSearchResultUseCase(repository)
+    }
 }
