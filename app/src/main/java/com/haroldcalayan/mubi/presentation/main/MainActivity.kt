@@ -8,10 +8,12 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.Search
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.haroldcalayan.mubi.R
 import com.haroldcalayan.mubi.common.ui.theme.MubiTheme
@@ -30,27 +32,31 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MubiTheme {
+                val navController = rememberNavController()
+                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                val currentDestination = navBackStackEntry?.destination?.route
                 Scaffold(
                     topBar = {
-                        TopAppBar(
-                            title = {
-                                Text(text = "TV Shows")
-                            },
-                            backgroundColor = colorResource(id = R.color.primaryDark),
-                            contentColor = colorResource(id = R.color.white),
-                            elevation = 12.dp,
-                            actions = {
-                                IconButton(onClick = { /*TODO*/ }) {
-                                    Icon(Icons.Rounded.Search, "Search")
+                        if (currentDestination == "movie_list_screen") {
+                            TopAppBar(
+                                title = {
+                                    Text(text = "TV Shows")
+                                },
+                                backgroundColor = colorResource(id = R.color.primaryDark),
+                                contentColor = colorResource(id = R.color.white),
+                                elevation = 12.dp,
+                                actions = {
+                                    IconButton(onClick = { /*TODO*/ }) {
+                                        Icon(Icons.Rounded.Search, "Search")
+                                    }
+                                    IconButton(onClick = { openProfile() }) {
+                                        Icon(Icons.Rounded.Person, "Profile")
+                                    }
                                 }
-                                IconButton(onClick = { openProfile() }) {
-                                    Icon(Icons.Rounded.Person, "Profile")
-                                }
-                            }
-                        )
+                            )
+                        }
                     }, content = {
                         Surface(color = MaterialTheme.colors.background) {
-                            val navController = rememberNavController()
                             NavHost(
                                 navController = navController,
                                 startDestination = Screen.MovieListScreen.route
