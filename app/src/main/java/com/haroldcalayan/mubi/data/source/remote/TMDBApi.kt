@@ -2,6 +2,9 @@ package com.haroldcalayan.mubi.data.source.remote
 
 import com.haroldcalayan.mubi.BuildConfig
 import com.haroldcalayan.mubi.data.source.remote.dto.*
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -13,11 +16,24 @@ interface TMDBApi {
         @Query("api_key") apiKey: String? = BuildConfig.BASE_APP_API_KEY
     ): RequestTokenDTO
 
+    @GET("3/authentication/session/new")
+    suspend fun getSession(
+        @Query("api_key") apiKey: String? = BuildConfig.BASE_APP_API_KEY,
+        @Body requestBody: RequestBody
+    ): SessionDTO
+
     @GET("3/account")
-    suspend fun getAccountId(
+    suspend fun getAccount(
         @Query("api_key") apiKey: String? = BuildConfig.BASE_APP_API_KEY,
         @Query("session_id") sessionId: String
-    ): RequestTokenDTO
+    ): AccountDTO
+
+    @GET("3/account/{account_id}/favorite/movies")
+    suspend fun getFavoriteMovies(
+        @Path("account_id") accountId: Int,
+        @Query("api_key") apiKey: String? = BuildConfig.BASE_APP_API_KEY,
+        @Query("session_id") sessionId: String
+    ): MoviesDTO
 
     @GET("3/movie/popular?page=1")
     suspend fun getPopularMovies(
@@ -58,9 +74,9 @@ interface TMDBApi {
         @Query("api_key") apiKey: String? = BuildConfig.BASE_APP_API_KEY
     ): SeasonDTO
 
-    @GET("/search/keyword")
+    @GET("3/search/keyword")
     suspend fun getSearch(
         @Query("api_key") apiKey: String? = BuildConfig.BASE_APP_API_KEY,
         @Query("query") query: String
-    ) : SearchResultDTO
+    ): SearchResultDTO
 }
