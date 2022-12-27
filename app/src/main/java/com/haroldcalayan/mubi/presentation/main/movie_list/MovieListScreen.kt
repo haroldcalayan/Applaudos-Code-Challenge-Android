@@ -3,22 +3,20 @@ package com.haroldcalayan.mubi.presentation.main.movie_list
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material.Card
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -31,6 +29,8 @@ import com.haroldcalayan.mubi.common.Constants.CATEGORY_ON_TV
 import com.haroldcalayan.mubi.common.Constants.CATEGORY_POPULAR
 import com.haroldcalayan.mubi.common.Constants.CATEGORY_TOP_RATED
 import com.haroldcalayan.mubi.presentation.main.Screen
+import java.math.BigDecimal
+import java.math.RoundingMode
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
@@ -43,8 +43,15 @@ fun MovieListScreen(
     val categories =
         listOf(CATEGORY_POPULAR, CATEGORY_TOP_RATED, CATEGORY_ON_TV, CATEGORY_AIRING_TODAY)
 
+    var selectedOption by remember {
+        mutableStateOf(CATEGORY_POPULAR)
+    }
+    val onSelectionChange = { text: String ->
+        selectedOption = text
+    }
     Column(
-        modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center
     ) {
         Spacer(modifier = Modifier.height(8.dp))
         LazyRow(
@@ -52,25 +59,43 @@ fun MovieListScreen(
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             items(categories) { categoryName ->
-                Box(
-                    modifier = Modifier.padding(10.dp)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    ClickableText(
-                        text = AnnotatedString(categoryName), style = TextStyle(
-                            color = Color.Black, fontSize = 12.sp
+                    Text(
+                        text = categoryName,
+                        style = TextStyle(
+                            color = if (selectedOption == categoryName) Color.White else Color.Black,
+                            fontSize = 12.sp
                         ),
-                        onClick = {
-                            when (categoryName) {
-                                CATEGORY_POPULAR -> movieListViewModel.getPopularMovies()
-                                CATEGORY_TOP_RATED -> movieListViewModel.getTopRatedMovies()
-                                CATEGORY_ON_TV -> movieListViewModel.getOnTvMovies()
-                                CATEGORY_AIRING_TODAY -> movieListViewModel.getAiringToday()
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(100.dp))
+                            .clickable {
+                                onSelectionChange(categoryName)
+                                when (categoryName) {
+                                    CATEGORY_POPULAR -> movieListViewModel.getPopularMovies()
+                                    CATEGORY_TOP_RATED -> movieListViewModel.getTopRatedMovies()
+                                    CATEGORY_ON_TV -> movieListViewModel.getOnTvMovies()
+                                    CATEGORY_AIRING_TODAY -> movieListViewModel.getAiringToday()
+                                }
                             }
-                        }
+                            .background(
+                                if (categoryName == selectedOption) {
+                                    Color.Blue
+                                } else {
+                                    Color.LightGray
+                                }
+                            )
+                            .padding(
+                                vertical = 12.dp,
+                                horizontal = 16.dp,
+                            )
                     )
                 }
             }
         }
+
         Spacer(modifier = Modifier.height(8.dp))
 
         LazyVerticalGrid(
@@ -92,43 +117,91 @@ fun MovieListScreen(
                             } else {
                                 navController.navigate(Screen.TVDetailScreen.route + "/${movie.id}")
                             }
-
                         }
                     ) {
-                        Box(modifier = Modifier.wrapContentSize()) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(Color.White),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
                             Image(
-                                painter = painterResource(id = R.drawable.ic_baseline_play_circle_24),
-                                contentDescription = "empty",
+                                painter = rememberCoilPainter(request = BuildConfig.BASE_IMAGE_URL + movie.posterPath),
+                                contentDescription = "Movie",
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(150.dp),
                                 contentScale = ContentScale.Crop
                             )
-                            Box(
+
+                            Column(
                                 modifier = Modifier
-                                    .background(
-                                        Brush.verticalGradient(
-                                            colors = listOf(
-                                                Color.Transparent, Color.Black
-                                            ), startY = 300f
-                                        )
-                                    )
                                     .fillMaxSize()
+                                    .background(Color.White)
+                                    .padding(8.dp)
                             ) {
-                                Image(
-                                    painter = rememberCoilPainter(request = BuildConfig.BASE_IMAGE_URL + movie.posterPath),
-                                    contentDescription = "Movie"
-                                )
-                                Box(
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .padding(12.dp),
-                                    contentAlignment = Alignment.BottomStart
+                                movie.title?.let {
+                                    Text(
+                                        text = it,
+                                        style = TextStyle(color = Color.Black, fontSize = 16.sp),
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
+                                    )
+                                }
+
+                                val rate by remember {
+                                    mutableStateOf(
+                                        BigDecimal(
+                                            5 * ((movie.voteAverage ?: 0.0) / 10.0)
+                                        ).setScale(1, RoundingMode.HALF_EVEN).toDouble()
+                                    )
+                                }
+
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.Center
                                 ) {
-                                    movie.title?.let {
-                                        Text(
-                                            text = it,
-                                            style = TextStyle(color = Color.White, fontSize = 16.sp)
+                                    val maxRate = rate.toInt()
+                                    val unfilledStars = (5 - kotlin.math.ceil(rate)).toInt()
+                                    val halfStar = !(rate.rem(1).equals(0.0))
+
+                                    repeat(maxRate) {
+                                        Icon(
+                                            painter = painterResource(id = R.drawable.baseline_star_rate),
+                                            contentDescription = "star",
+                                            tint = Color(R.color.ic_star)
                                         )
                                     }
+
+                                    if (halfStar) {
+                                        Icon(
+                                            painter = painterResource(id = R.drawable.baseline_star_half),
+                                            contentDescription = "star",
+                                            tint = Color(R.color.ic_star)
+                                        )
+                                    }
+
+                                    repeat(unfilledStars) {
+                                        Icon(
+                                            painter = painterResource(id = R.drawable.baseline_star_border),
+                                            contentDescription = "star",
+                                            tint = Color(R.color.ic_star)
+                                        )
+                                    }
+
+                                    Spacer(modifier = Modifier.width(2.dp))
+
+                                    Text(
+                                        text = rate.toString(),
+                                        style = TextStyle(
+                                            color = Color.Black,
+                                            fontSize = 15.sp
+                                        ),
+                                        maxLines = 1
+                                    )
                                 }
+                                Spacer(modifier = Modifier.height(15.dp))
                             }
                         }
                     }
@@ -137,3 +210,4 @@ fun MovieListScreen(
         }
     }
 }
+
