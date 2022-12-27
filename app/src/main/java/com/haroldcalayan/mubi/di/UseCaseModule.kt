@@ -65,4 +65,22 @@ object UseCaseModule {
     fun provideSearchResultUseCase(repository: MovieRepository): GetSearchResultUseCase {
         return GetSearchResultUseCase(repository)
     }
+
+    @Provides
+    @Singleton
+    fun provideAccountDetailsUseCase(repository: MovieRepository): GetAccountDetailsUseCase {
+        return GetAccountDetailsUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFavoriteMovieUseCase(repository: MovieRepository): GetFavoriteMovieUseCase {
+        return GetFavoriteMovieUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSessionUseCase(repository: MovieRepository): GetSessionUseCase {
+        return GetSessionUseCase(repository)
+    }
 }
