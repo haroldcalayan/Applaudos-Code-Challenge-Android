@@ -10,12 +10,15 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -73,6 +76,25 @@ fun TVDetailsScreen(
                         )
                         .fillMaxSize()
                 )
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(5.dp),
+                    contentAlignment = Alignment.TopStart,
+                ) {
+                    IconButton(
+                        modifier = Modifier
+                            .alpha(ContentAlpha.medium),
+                        onClick = { navController.popBackStack() }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Back",
+                            tint = Color.White
+                        )
+                    }
+                }
 
                 Box(
                     modifier = Modifier
