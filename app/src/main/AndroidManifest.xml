@@ -29,6 +29,12 @@
             android:theme="@style/Theme.Mubi" >
         </activity>
 
+        <activity
+            android:name=".presentation.approvedToken.ApprovedTokenActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Mubi" >
+        </activity>
+
     </application>
 
 </manifest>

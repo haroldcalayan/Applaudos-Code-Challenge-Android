@@ -10,4 +10,9 @@ object Constants {
     const val ONE_SECOND = 1000L
     const val ONE_MINUTE = 60 * ONE_SECOND
     const val SPLASH_SCREEN_LIFE = 3 * ONE_SECOND
+
+    const val SESSION_ID = "sessionId"
+
+    const val APPROVED_TOKEN_ALLOW = "/allow"
+    const val APPROVE_TOKEN_DENY = "/deny"
 }
