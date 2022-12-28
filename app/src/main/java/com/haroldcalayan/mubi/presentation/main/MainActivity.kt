@@ -18,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import com.haroldcalayan.mubi.R
 import com.haroldcalayan.mubi.common.ui.theme.MubiTheme
 import com.haroldcalayan.mubi.common.utils.showToastShort
+import com.haroldcalayan.mubi.presentation.episode_screen.EpisodeScreen
 import com.haroldcalayan.mubi.presentation.main.movie_details.MovieDetailsScreen
 import com.haroldcalayan.mubi.presentation.main.movie_list.MovieListScreen
 import com.haroldcalayan.mubi.presentation.main.tv_details.TVDetailsScreen
@@ -75,6 +76,11 @@ class MainActivity : ComponentActivity() {
                                     route = Screen.TVDetailScreen.route + "/{tvId}"
                                 ) {
                                     TVDetailsScreen(navController)
+                                }
+                                composable(
+                                    route = Screen.EpisodeScreen.route + "/{tvId}/{seasonNumber}"
+                                ) {
+                                    EpisodeScreen(navController)
                                 }
                             }
                         }
