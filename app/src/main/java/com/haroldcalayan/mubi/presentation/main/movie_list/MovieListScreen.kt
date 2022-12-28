@@ -50,17 +50,22 @@ fun MovieListScreen(
         selectedOption = text
     }
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .wrapContentSize()
+            .padding(8.dp),
         verticalArrangement = Arrangement.Center
     ) {
-        Spacer(modifier = Modifier.height(8.dp))
         LazyRow(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(5.dp),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             items(categories) { categoryName ->
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 5.dp),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     Text(
@@ -89,24 +94,23 @@ fun MovieListScreen(
                             )
                             .padding(
                                 vertical = 12.dp,
-                                horizontal = 16.dp,
+                                horizontal = 12.dp,
                             )
                     )
                 }
             }
         }
 
-        Spacer(modifier = Modifier.height(8.dp))
-
         LazyVerticalGrid(
             modifier = Modifier.weight(1f, true),
-            state = rememberLazyListState(), cells = GridCells.Fixed(2)
+            state = rememberLazyListState(),
+            cells = GridCells.Fixed(2)
         ) {
             items(state.value.popularMovies?.results ?: emptyList()) { movie ->
                 Box(
                     modifier = Modifier
                         .wrapContentSize()
-                        .padding(16.dp)
+                        .padding(8.dp)
                 ) {
                     Card(
                         modifier = Modifier.wrapContentSize(),

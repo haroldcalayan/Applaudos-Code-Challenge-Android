@@ -5,6 +5,7 @@ import com.haroldcalayan.mubi.data.repository.MovieRepository
 import com.haroldcalayan.mubi.data.source.remote.dto.SessionDTO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import retrofit2.HttpException
@@ -19,7 +20,7 @@ class GetSessionUseCase @Inject constructor(
             emit(Response.Loading())
             val json = JSONObject()
             json.put("request_token", requestToken)
-            val data = repository.getSession(json.toString().toRequestBody())
+            val data = repository.getSession(json.toString().toRequestBody("application/json".toMediaTypeOrNull()))
             emit(Response.Success(data))
         } catch (e: HttpException) {
             emit(Response.Error(e.localizedMessage ?: "An unexpected error occurred"))

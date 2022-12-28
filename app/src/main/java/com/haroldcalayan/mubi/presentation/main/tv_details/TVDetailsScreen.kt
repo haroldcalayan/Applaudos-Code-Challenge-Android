@@ -9,10 +9,7 @@ import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,10 +30,12 @@ import androidx.navigation.NavController
 import com.google.accompanist.coil.rememberCoilPainter
 import com.haroldcalayan.mubi.BuildConfig
 import com.haroldcalayan.mubi.R
+import com.haroldcalayan.mubi.presentation.main.Screen
 import java.math.BigDecimal
 import java.math.RoundingMode
 import kotlin.math.ceil
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun TVDetailsScreen(
     navController: NavController,
@@ -171,6 +170,9 @@ fun TVDetailsScreen(
                             modifier = Modifier.wrapContentSize(),
                             shape = RoundedCornerShape(15.dp),
                             elevation = 5.dp,
+                            onClick = {
+                                navController.navigate(Screen.EpisodeScreen.route + "/${season.id}/${season.seasonNumber}")
+                            }
                         ) {
                             Row(
                                 modifier = Modifier
@@ -179,7 +181,7 @@ fun TVDetailsScreen(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Image(
-                                    painter = rememberCoilPainter(request = BuildConfig.BASE_IMAGE_URL + season.posterPath),
+                                    painter = if(season.posterPath == null) painterResource(id = R.drawable.ic_launcher_foreground) else rememberCoilPainter(request = BuildConfig.BASE_IMAGE_URL + season.posterPath),
                                     contentDescription = "Movie",
                                     modifier = Modifier
                                         .width(150.dp)

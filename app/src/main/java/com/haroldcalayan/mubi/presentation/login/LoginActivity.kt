@@ -1,12 +1,13 @@
 package com.haroldcalayan.mubi.presentation.login
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.preference.PreferenceManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
@@ -18,25 +19,48 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.haroldcalayan.mubi.presentation.main.MainActivity
+import androidx.lifecycle.lifecycleScope
+import com.haroldcalayan.mubi.R.drawable
+import com.haroldcalayan.mubi.R.string
+import com.haroldcalayan.mubi.common.Constants
 import com.haroldcalayan.mubi.common.ui.theme.MubiTheme
-import com.haroldcalayan.mubi.R.*
+import com.haroldcalayan.mubi.presentation.approvedToken.ApprovedTokenActivity
+import com.haroldcalayan.mubi.presentation.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class LoginActivity : ComponentActivity() {
 
     private val viewModel: LoginViewModel by viewModels()
+    private lateinit var prefs: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        prefs = PreferenceManager.getDefaultSharedPreferences(this)
         installSplashScreen().apply {
             this.setKeepOnScreenCondition {
                 viewModel.isLoading.value
             }
         }
+
         setContent {
-            LoginComposable()
+            if (hasValidSession()) {
+                openMain()
+                finishAffinity()
+            } else LoginComposable()
+        }
+
+        subscribeState()
+    }
+
+    private fun subscribeState() {
+        lifecycleScope.launchWhenCreated {
+            viewModel.requestState.collectLatest { it ->
+                it.data?.requestToken?.let { token ->
+                    openAuth(token)
+                }
+            }
         }
     }
 
@@ -54,15 +78,19 @@ class LoginActivity : ComponentActivity() {
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    Image(painter = painterResource(id = drawable.mubi_login_logo), contentDescription = "mubi logo")
+                    Image(
+                        painter = painterResource(id = drawable.mubi_login_logo),
+                        contentDescription = "mubi logo"
+                    )
                     Spacer(modifier = Modifier.height(20.dp))
-                    Text(text = getString(string.login_text_sign_in),
+                    Text(
+                        text = getString(string.login_text_sign_in),
                         style = MaterialTheme.typography.h6,
                     )
                     Spacer(modifier = Modifier.height(10.dp))
                     Button(modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(20.dp),
+                        .fillMaxWidth()
+                        .padding(20.dp),
                         onClick = {
                             onLoginClick()
                         }) {
@@ -80,12 +108,22 @@ class LoginActivity : ComponentActivity() {
     }
 
     private fun onLoginClick() {
-        openMain()
-        finish()
+        viewModel.getRequestToken()
     }
 
     private fun openMain() {
         val intent = Intent(this@LoginActivity, MainActivity::class.java)
         startActivity(intent)
+    }
+
+    private fun hasValidSession() = !prefs.getString(Constants.SESSION_ID, "").isNullOrBlank()
+
+    private fun openAuth(requestToken: String) {
+        startActivity(
+            ApprovedTokenActivity.newIntent(
+                this,
+                requestToken,
+            )
+        )
     }
 }

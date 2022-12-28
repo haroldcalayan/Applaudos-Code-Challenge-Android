@@ -46,6 +46,7 @@ android {
             buildConfigField "String", "BASE_APP_URL", DEV_BASE_APP_URL
             buildConfigField "String", "BASE_APP_API_KEY", secretKeyProperties['DEV_BASE_APP_API_KEY']
             buildConfigField "String", "BASE_IMAGE_URL", DEV_BASE_IMAGE_URL
+            buildConfigField "String", "BASE_AUTH_URL", DEV_BASE_AUTH_URL
         }
         staging {
             debuggable true
@@ -55,6 +56,7 @@ android {
             buildConfigField "String", "BASE_APP_URL", STAGING_BASE_APP_URL
             buildConfigField "String", "BASE_APP_API_KEY", secretKeyProperties['STAGING_BASE_APP_API_KEY']
             buildConfigField "String", "BASE_IMAGE_URL", STAGING_BASE_IMAGE_URL
+            buildConfigField "String", "BASE_AUTH_URL", STAGING_BASE_AUTH_URL
         }
         release {
             debuggable false
@@ -66,6 +68,7 @@ android {
             buildConfigField "String", "BASE_APP_URL", PROD_BASE_APP_URL
             buildConfigField "String", "BASE_APP_API_KEY", secretKeyProperties['PROD_BASE_APP_API_KEY']
             buildConfigField "String", "BASE_IMAGE_URL", PROD_BASE_IMAGE_URL
+            buildConfigField "String", "BASE_AUTH_URL", PROD_BASE_AUTH_URL
         }
     }
 

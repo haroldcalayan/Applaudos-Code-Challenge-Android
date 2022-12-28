@@ -4,10 +4,7 @@ import com.haroldcalayan.mubi.BuildConfig
 import com.haroldcalayan.mubi.data.source.remote.dto.*
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface TMDBApi {
 
@@ -16,7 +13,7 @@ interface TMDBApi {
         @Query("api_key") apiKey: String? = BuildConfig.BASE_APP_API_KEY
     ): RequestTokenDTO
 
-    @GET("3/authentication/session/new")
+    @POST("3/authentication/session/new")
     suspend fun getSession(
         @Query("api_key") apiKey: String? = BuildConfig.BASE_APP_API_KEY,
         @Body requestBody: RequestBody
