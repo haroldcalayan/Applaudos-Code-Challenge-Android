@@ -1,8 +1,8 @@
 package com.haroldcalayan.mubi.presentation.authentication
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.haroldcalayan.mubi.common.Response
+import com.haroldcalayan.mubi.common.base.BaseViewModel
 import com.haroldcalayan.mubi.domain.use_case.GetSessionUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthenticationViewModel  @Inject constructor(
     private val sessionUseCase: GetSessionUseCase
-) : ViewModel(){
+) : BaseViewModel() {
 
     private val _state = MutableStateFlow((SessionState()))
     val state = _state.asStateFlow()

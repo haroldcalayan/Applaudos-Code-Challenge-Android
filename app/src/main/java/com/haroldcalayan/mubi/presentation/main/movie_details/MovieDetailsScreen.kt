@@ -32,6 +32,7 @@ fun MovieDetailsScreen(
     navController: NavController,
     movieDetailsViewModel: MovieDetailsViewModel = hiltViewModel()
 ) {
+
     val state = movieDetailsViewModel.state.value
 
     state.movie?.let { movie ->

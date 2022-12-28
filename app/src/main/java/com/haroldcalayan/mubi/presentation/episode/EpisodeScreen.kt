@@ -38,6 +38,7 @@ fun EpisodeScreen(
     navController: NavController,
     episodeViewModel: EpisodeViewModel = hiltViewModel()
 ) {
+
     val state = episodeViewModel.state.value
 
     Column(

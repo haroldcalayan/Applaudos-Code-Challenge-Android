@@ -2,9 +2,9 @@ package com.haroldcalayan.mubi.presentation.main.movie_list
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.haroldcalayan.mubi.common.Response
+import com.haroldcalayan.mubi.common.base.BaseViewModel
 import com.haroldcalayan.mubi.domain.use_case.GetAiringTodayUseCase
 import com.haroldcalayan.mubi.domain.use_case.GetOnTvMoviesUseCase
 import com.haroldcalayan.mubi.domain.use_case.GetPopularMovieUseCase
@@ -21,7 +21,7 @@ class MovieListViewModel @Inject constructor(
     private val getTopRatedMoviesUseCase: GetTopRatedMoviesUseCase,
     private val getAiringTodayUseCase: GetAiringTodayUseCase,
     private val getOnTvMoviesUseCase: GetOnTvMoviesUseCase
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val _state = mutableStateOf(PopularMoviesState())
     val state: State<PopularMoviesState> = _state

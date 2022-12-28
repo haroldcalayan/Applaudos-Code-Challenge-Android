@@ -3,9 +3,9 @@ package com.haroldcalayan.mubi.presentation.main.tv_details
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.haroldcalayan.mubi.common.Response
+import com.haroldcalayan.mubi.common.base.BaseViewModel
 import com.haroldcalayan.mubi.domain.use_case.GetTVDetailUseCase
 import com.haroldcalayan.mubi.presentation.main.state.TVDetailState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +17,7 @@ import javax.inject.Inject
 class TVDetailsViewModel @Inject constructor(
     private val tvDetailsUseCase: GetTVDetailUseCase,
     savedStateHandle: SavedStateHandle
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val _state = mutableStateOf(TVDetailState())
     val state: State<TVDetailState> = _state
