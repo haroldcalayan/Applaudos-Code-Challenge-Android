@@ -21,6 +21,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -38,83 +39,139 @@ fun EpisodeScreen(
 ) {
     val state = episodeViewModel.state.value
 
-    state.season?.episodes.let { episode ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        Box(
+            modifier = Modifier.fillMaxSize()
         ) {
-            TopAppBar(
-                title = {
-                    state.season?.name?.let { Text(text = it) }
-                },
-                backgroundColor = colorResource(id = color.primaryDark),
-                contentColor = colorResource(id = color.white),
-                elevation = 12.dp,
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Default.ArrowBack, "Back")
+            if (state.error.isNotBlank()) {
+                TopAppBar(
+                    title = {
+                        state.season?.name?.let { Text(text = it) }
+                    },
+                    backgroundColor = colorResource(id = color.primaryDark),
+                    contentColor = colorResource(id = color.white),
+                    elevation = 12.dp,
+                    navigationIcon = {
+                        IconButton(onClick = { navController.popBackStack() }) {
+                            Icon(Icons.Default.ArrowBack, "Back")
+                        }
                     }
-                }
-            )
-            LazyVerticalGrid(
-                state = rememberLazyListState(),
-                cells = GridCells.Fixed(1),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                items(episode ?: emptyList()) { season ->
-                    Box(
+                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Image(
+                        painter = painterResource(id = drawable.baseline_error_24),
+                        contentDescription = "Error",
                         modifier = Modifier
-                            .wrapContentSize()
-                            .padding(16.dp)
+                            .width(100.dp)
+                            .height(100.dp),
+                        contentScale = ContentScale.Crop,
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Text(
+                        text = "No data found",
+                        color = Color.Red,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 20.dp)
+                    )
+                }
+            } else {
+                state.season?.episodes.let { episode ->
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        verticalArrangement = Arrangement.Top,
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Card(
-                            modifier = Modifier.wrapContentSize(),
-                            shape = RoundedCornerShape(15.dp),
-                            elevation = 5.dp,
+                        TopAppBar(
+                            title = {
+                                state.season?.name?.let { Text(text = it) }
+                            },
+                            backgroundColor = colorResource(id = color.primaryDark),
+                            contentColor = colorResource(id = color.white),
+                            elevation = 12.dp,
+                            navigationIcon = {
+                                IconButton(onClick = { navController.popBackStack() }) {
+                                    Icon(Icons.Default.ArrowBack, "Back")
+                                }
+                            }
+                        )
+                        LazyVerticalGrid(
+                            state = rememberLazyListState(),
+                            cells = GridCells.Fixed(1),
+                            modifier = Modifier.fillMaxWidth()
                         ) {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .background(Color.White),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Image(
-                                    painter = if(season.stillPath == null) painterResource(id = drawable.ic_launcher_foreground) else rememberCoilPainter(request = BuildConfig.BASE_IMAGE_URL + season.stillPath),
-                                    contentDescription = "Movie",
+                            items(episode ?: emptyList()) { season ->
+                                Box(
                                     modifier = Modifier
-                                        .width(150.dp)
-                                        .height(125.dp),
-                                    contentScale = ContentScale.Crop
-                                )
-                                Spacer(modifier = Modifier.width(12.dp))
-                                Column(
-                                    modifier = Modifier.padding(12.dp)
+                                        .wrapContentSize()
+                                        .padding(16.dp)
                                 ) {
-                                    season.name?.let {
-                                        Text(
-                                            text = it,
-                                            fontStyle = FontStyle.Italic,
-                                            style = MaterialTheme.typography.h6,
-                                            color = Color.Black
-                                        )
-                                    }
-                                    season.overview?.let {
-                                        Text(
-                                            text = it,
-                                            style = TextStyle(
-                                                color = Color.Black,
-                                                fontSize = 12.sp
-                                            ),
-                                            maxLines = 3,
-                                            overflow = TextOverflow.Ellipsis
-                                        )
-                                    }
-                                    season.runtime?.let {
-                                        Text(
-                                            text = "$it",
-                                            style = TextStyle(color = Color.Blue, fontSize = 16.sp),
-                                            color = Color.Blue
-                                        )
+                                    Card(
+                                        modifier = Modifier.wrapContentSize(),
+                                        shape = RoundedCornerShape(15.dp),
+                                        elevation = 5.dp,
+                                    ) {
+                                        Row(
+                                            modifier = Modifier
+                                                .fillMaxSize()
+                                                .background(Color.White),
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            Image(
+                                                painter = if (season.stillPath == null) painterResource(
+                                                    id = drawable.ic_launcher_foreground
+                                                ) else rememberCoilPainter(request = BuildConfig.BASE_IMAGE_URL + season.stillPath),
+                                                contentDescription = "Movie",
+                                                modifier = Modifier
+                                                    .width(150.dp)
+                                                    .height(125.dp),
+                                                contentScale = ContentScale.Crop
+                                            )
+                                            Spacer(modifier = Modifier.width(12.dp))
+                                            Column(
+                                                modifier = Modifier.padding(12.dp)
+                                            ) {
+                                                season.name?.let {
+                                                    Text(
+                                                        text = it,
+                                                        fontStyle = FontStyle.Italic,
+                                                        style = MaterialTheme.typography.h6,
+                                                        color = Color.Black
+                                                    )
+                                                }
+                                                season.overview?.let {
+                                                    Text(
+                                                        text = it,
+                                                        style = TextStyle(
+                                                            color = Color.Black,
+                                                            fontSize = 12.sp
+                                                        ),
+                                                        maxLines = 3,
+                                                        overflow = TextOverflow.Ellipsis
+                                                    )
+                                                }
+                                                season.runtime?.let {
+                                                    Text(
+                                                        text = "$it",
+                                                        style = TextStyle(
+                                                            color = Color.Blue,
+                                                            fontSize = 16.sp
+                                                        ),
+                                                        color = Color.Blue
+                                                    )
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }

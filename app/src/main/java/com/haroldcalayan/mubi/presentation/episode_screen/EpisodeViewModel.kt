@@ -35,6 +35,10 @@ class EpisodeViewModel@Inject constructor(
                 is Response.Success -> {
                     _state.value = EpisodeState(season = result.data)
                 }
+                is Response.Error -> {
+                    _state.value =
+                        EpisodeState(error = result.message ?: "An unexpected error occurred")
+                }
             }
         }.launchIn(viewModelScope)
     }
