@@ -8,6 +8,9 @@
     <color name="primaryDark">#0013CA</color>
     <color name="primary">#6243FF</color>
 
+    <!--  Login  -->
+    <color name="font_login">#6B6B83</color>
+
     <!-- Rating star -->
     <color name="ic_star">#21BDCA</color>
 

@@ -13,11 +13,13 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
+import com.haroldcalayan.mubi.R
 import com.haroldcalayan.mubi.R.drawable
 import com.haroldcalayan.mubi.R.string
 import com.haroldcalayan.mubi.common.ui.theme.MubiTheme
@@ -86,15 +88,17 @@ class LoginActivity : ComponentActivity() {
                         painter = painterResource(id = drawable.mubi_login_logo),
                         contentDescription = "mubi logo"
                     )
-                    Spacer(modifier = Modifier.height(20.dp))
+                    Spacer(modifier = Modifier.height(32.dp))
                     Text(
                         text = getString(string.login_text_sign_in),
-                        style = MaterialTheme.typography.h6,
+                        style = MaterialTheme.typography.subtitle1,
+                        color = colorResource(R.color.font_login)
                     )
-                    Spacer(modifier = Modifier.height(10.dp))
+                    Spacer(modifier = Modifier.height(32.dp))
                     Button(modifier = Modifier
                         .fillMaxWidth()
-                        .padding(20.dp),
+                        .height(48.dp)
+                        .padding(horizontal = 16.dp),
                         onClick = {
                             onLoginClick()
                         }) {
