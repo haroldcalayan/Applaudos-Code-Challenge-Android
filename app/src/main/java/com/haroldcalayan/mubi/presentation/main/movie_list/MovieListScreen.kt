@@ -78,7 +78,9 @@ fun MovieListScreen(
                     Text(
                         text = categoryName,
                         style = TextStyle(
-                            color = if (selectedOption == categoryName) colorResource(R.color.tabs_font_selected) else colorResource(R.color.tabs_font_default),
+                            color = if (selectedOption == categoryName) colorResource(R.color.tabs_font_selected) else colorResource(
+                                R.color.tabs_font_default
+                            ),
                             fontSize = 12.sp
                         ),
                         modifier = Modifier
@@ -139,7 +141,9 @@ fun MovieListScreen(
                             verticalArrangement = Arrangement.Center
                         ) {
                             Image(
-                                painter = rememberCoilPainter(request = BuildConfig.BASE_IMAGE_URL + movie.posterPath),
+                                painter = if (movie.backdropPath == null) painterResource(
+                                    id = R.drawable.ic_launcher_foreground
+                                ) else rememberCoilPainter(request = BuildConfig.BASE_IMAGE_URL + movie.backdropPath),
                                 contentDescription = "Movie",
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -155,10 +159,14 @@ fun MovieListScreen(
                                     .background(Color.White)
                                     .padding(8.dp)
                             ) {
-                                val title = if(movie.title?.isNotEmpty() == true) movie.title else movie.originalName
+                                val title =
+                                    if (movie.title?.isNotEmpty() == true) movie.title else movie.originalName
                                 Text(
                                     text = title.orEmpty(),
-                                    style = TextStyle(color = colorResource(id = R.color.list_font_title), fontSize = 15.sp),
+                                    style = TextStyle(
+                                        color = colorResource(id = R.color.list_font_title),
+                                        fontSize = 15.sp
+                                    ),
                                     fontWeight = FontWeight.SemiBold,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis
@@ -212,7 +220,10 @@ fun MovieListScreen(
 
                                     Text(
                                         text = rate.toString(),
-                                        style = TextStyle(color = colorResource(R.color.list_font_star_rating), fontSize = 15.sp),
+                                        style = TextStyle(
+                                            color = colorResource(R.color.list_font_star_rating),
+                                            fontSize = 15.sp
+                                        ),
                                         maxLines = 1
                                     )
                                 }

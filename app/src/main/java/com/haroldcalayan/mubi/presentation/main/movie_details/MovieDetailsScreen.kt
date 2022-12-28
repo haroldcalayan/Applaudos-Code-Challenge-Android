@@ -51,7 +51,9 @@ fun MovieDetailsScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(200.dp),
-                    painter = rememberCoilPainter(request = BuildConfig.BASE_IMAGE_URL + movie.backdropPath),
+                    painter = if (movie.backdropPath == null) painterResource(
+                        id = R.drawable.ic_launcher_foreground
+                    ) else rememberCoilPainter(request = BuildConfig.BASE_IMAGE_URL + movie.backdropPath),
                     contentDescription = "Movie",
                     contentScale = ContentScale.Crop
                 )
@@ -166,7 +168,10 @@ fun MovieDetailsScreen(
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
                     text = movie.overview.orEmpty(),
-                    style = TextStyle(color = colorResource(id = R.color.details_font_description), fontSize = 14.sp),
+                    style = TextStyle(
+                        color = colorResource(id = R.color.details_font_description),
+                        fontSize = 14.sp
+                    ),
                 )
                 Spacer(modifier = Modifier.height(10.dp))
             }

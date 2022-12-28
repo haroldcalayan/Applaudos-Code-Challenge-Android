@@ -62,7 +62,9 @@ fun TVDetailsScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(200.dp),
-                    painter = rememberCoilPainter(request = BuildConfig.BASE_IMAGE_URL + tv.backdropPath),
+                    painter = if (tv.backdropPath == null) painterResource(
+                        id = R.drawable.ic_launcher_foreground
+                    ) else rememberCoilPainter(request = BuildConfig.BASE_IMAGE_URL + tv.backdropPath),
                     contentDescription = "Movie",
                     contentScale = ContentScale.Crop
                 )

@@ -90,8 +90,10 @@ fun ProfileScreen(
                         modifier = Modifier.fillMaxSize()
                     ) {
                         Image(
-                            painter = rememberCoilPainter(BuildConfig.BASE_IMAGE_URL + it.avatar?.tmdb?.avatarPath),
-                            contentDescription = "mubi logo",
+                            painter  = if (it.avatar?.tmdb?.avatarPath == null) painterResource(
+                                id = R.drawable.ic_launcher_foreground
+                            ) else rememberCoilPainter(request = BuildConfig.BASE_IMAGE_URL + it.avatar?.tmdb?.avatarPath),
+                            contentDescription = "Profile",
                             modifier = Modifier
                                 .size(100.dp)
                                 .clip(CircleShape)
@@ -168,7 +170,9 @@ fun ProfileScreen(
                                         verticalArrangement = Arrangement.Center
                                     ) {
                                         Image(
-                                            painter = rememberCoilPainter(request = BuildConfig.BASE_IMAGE_URL + favorites.posterPath),
+                                            painter = if (favorites.posterPath == null) painterResource(
+                                                id = R.drawable.ic_launcher_foreground
+                                            ) else rememberCoilPainter(request = BuildConfig.BASE_IMAGE_URL + favorites.posterPath),
                                             contentDescription = "Movie",
                                             modifier = Modifier
                                                 .fillMaxWidth()
