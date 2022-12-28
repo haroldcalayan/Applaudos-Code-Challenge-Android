@@ -11,12 +11,19 @@
     <!--  Login  -->
     <string name="login_text_sign_in">Sign in to your account</string>
     <string name="login_button_login">LOG IN</string>
-    <string name="alert_dialog_stay_message">STAY</string>
-    <string name="alert_dialog_leave_message">LEAVE</string>
-    <string name="alert_dialog_logout_message">Are you sure you want to leave?</string>
 
     <!--  Authentication  -->
     <string name="authentication_session_denied_title">Session Denied.</string>
     <string name="authentication_session_denied_message">Session Denied, Please try again!</string>
+
+    <!--  Details  -->
+    <string name="details_summary">Summary</string>
+
+    <!--  Profile  -->
+    <string name="profile_my_favorites">My Favorites</string>
+    <string name="profile_logout">LOG OUT</string>
+    <string name="profile_dialog_stay_message">STAY</string>
+    <string name="profile_dialog_leave_message">LEAVE</string>
+    <string name="profile_dialog_logout_message">Are you sure you want to leave?</string>
 
 </resources>

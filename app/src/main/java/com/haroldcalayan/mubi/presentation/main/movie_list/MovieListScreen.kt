@@ -17,8 +17,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -75,7 +78,7 @@ fun MovieListScreen(
                     Text(
                         text = categoryName,
                         style = TextStyle(
-                            color = if (selectedOption == categoryName) Color.White else Color.Black,
+                            color = if (selectedOption == categoryName) colorResource(R.color.tabs_font_selected) else colorResource(R.color.tabs_font_default),
                             fontSize = 12.sp
                         ),
                         modifier = Modifier
@@ -91,9 +94,9 @@ fun MovieListScreen(
                             }
                             .background(
                                 if (categoryName == selectedOption) {
-                                    Color.Blue
+                                    colorResource(R.color.tabs_background_selected)
                                 } else {
-                                    Color.LightGray
+                                    colorResource(R.color.tabs_background_default)
                                 }
                             )
                             .padding(
@@ -144,26 +147,29 @@ fun MovieListScreen(
                                 contentScale = ContentScale.Crop
                             )
 
+                            Spacer(modifier = Modifier.height(6.dp))
+
                             Column(
                                 modifier = Modifier
                                     .fillMaxSize()
                                     .background(Color.White)
                                     .padding(8.dp)
                             ) {
-                                movie.title?.let {
-                                    Text(
-                                        text = it,
-                                        style = TextStyle(color = Color.Black, fontSize = 16.sp),
-                                        maxLines = 1,
-                                        overflow = TextOverflow.Ellipsis
-                                    )
-                                }
+                                val title = if(movie.title?.isNotEmpty() == true) movie.title else movie.originalName
+                                Text(
+                                    text = title.orEmpty(),
+                                    style = TextStyle(color = colorResource(id = R.color.list_font_title), fontSize = 15.sp),
+                                    fontWeight = FontWeight.SemiBold,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+
+                                Spacer(modifier = Modifier.height(6.dp))
 
                                 val rate by remember {
                                     mutableStateOf(
-                                        BigDecimal(
-                                            5 * ((movie.voteAverage ?: 0.0) / 10.0)
-                                        ).setScale(1, RoundingMode.HALF_EVEN).toDouble()
+                                        BigDecimal(5 * ((movie.voteAverage ?: 0.0) / 10.0))
+                                            .setScale(1, RoundingMode.HALF_EVEN).toDouble()
                                     )
                                 }
 
@@ -179,7 +185,8 @@ fun MovieListScreen(
                                         Icon(
                                             painter = painterResource(id = R.drawable.baseline_star_rate),
                                             contentDescription = "star",
-                                            tint = Color(R.color.ic_star)
+                                            Modifier.height(20.dp),
+                                            tint = colorResource(R.color.list_background_star_rating)
                                         )
                                     }
 
@@ -187,7 +194,8 @@ fun MovieListScreen(
                                         Icon(
                                             painter = painterResource(id = R.drawable.baseline_star_half),
                                             contentDescription = "star",
-                                            tint = Color(R.color.ic_star)
+                                            Modifier.height(20.dp),
+                                            tint = colorResource(R.color.list_background_star_rating)
                                         )
                                     }
 
@@ -195,7 +203,8 @@ fun MovieListScreen(
                                         Icon(
                                             painter = painterResource(id = R.drawable.baseline_star_border),
                                             contentDescription = "star",
-                                            tint = Color(R.color.ic_star)
+                                            Modifier.height(20.dp),
+                                            tint = colorResource(R.color.list_background_star_rating)
                                         )
                                     }
 
@@ -203,14 +212,11 @@ fun MovieListScreen(
 
                                     Text(
                                         text = rate.toString(),
-                                        style = TextStyle(
-                                            color = Color.Black,
-                                            fontSize = 15.sp
-                                        ),
+                                        style = TextStyle(color = colorResource(R.color.list_font_star_rating), fontSize = 15.sp),
                                         maxLines = 1
                                     )
                                 }
-                                Spacer(modifier = Modifier.height(15.dp))
+                                Spacer(modifier = Modifier.height(12.dp))
                             }
                         }
                     }

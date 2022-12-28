@@ -14,7 +14,9 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
@@ -112,9 +114,8 @@ fun MovieDetailsScreen(
 
                         val rate by remember {
                             mutableStateOf(
-                                BigDecimal(
-                                    5 * ((movie.voteAverage ?: 0.0) / 10.0)
-                                ).setScale(1, RoundingMode.HALF_EVEN).toDouble()
+                                BigDecimal(5 * ((movie.voteAverage ?: 0.0) / 10.0))
+                                    .setScale(1, RoundingMode.HALF_EVEN).toDouble()
                             )
                         }
 
@@ -158,14 +159,14 @@ fun MovieDetailsScreen(
             ) {
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
-                    text = "Summary",
-                    fontStyle = FontStyle.Italic,
+                    text = stringResource(id = R.string.details_summary),
                     style = MaterialTheme.typography.h6,
-                    color = Color.Blue
+                    color = colorResource(R.color.primary)
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
-                    text = "\"${movie.overview}\""
+                    text = movie.overview.orEmpty(),
+                    style = TextStyle(color = colorResource(id = R.color.details_font_description), fontSize = 14.sp),
                 )
                 Spacer(modifier = Modifier.height(10.dp))
             }

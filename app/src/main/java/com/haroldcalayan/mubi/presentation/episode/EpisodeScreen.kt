@@ -21,6 +21,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -29,6 +30,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.coil.rememberCoilPainter
 import com.haroldcalayan.mubi.BuildConfig
+import com.haroldcalayan.mubi.R
 import com.haroldcalayan.mubi.R.color
 import com.haroldcalayan.mubi.R.drawable
 
@@ -145,18 +147,15 @@ fun EpisodeScreen(
                                                 season.name?.let {
                                                     Text(
                                                         text = it,
-                                                        fontStyle = FontStyle.Italic,
                                                         style = MaterialTheme.typography.h6,
-                                                        color = Color.Black
+                                                        color = colorResource(id = R.color.details_font_title),
+                                                        fontWeight = FontWeight.SemiBold,
                                                     )
                                                 }
                                                 season.overview?.let {
                                                     Text(
                                                         text = it,
-                                                        style = TextStyle(
-                                                            color = Color.Black,
-                                                            fontSize = 12.sp
-                                                        ),
+                                                        style = TextStyle(color = colorResource(id = R.color.details_font_description), fontSize = 14.sp),
                                                         maxLines = 3,
                                                         overflow = TextOverflow.Ellipsis
                                                     )
@@ -165,7 +164,7 @@ fun EpisodeScreen(
                                                     Text(
                                                         text = "$it",
                                                         style = TextStyle(
-                                                            color = Color.Blue,
+                                                            color = colorResource(id = R.color.primary),
                                                             fontSize = 16.sp
                                                         ),
                                                         color = Color.Blue
