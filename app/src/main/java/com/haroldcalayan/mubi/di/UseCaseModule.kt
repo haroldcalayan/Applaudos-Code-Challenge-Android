@@ -14,73 +14,50 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideGetAiringTodaysUseCase(repository: MovieRepository): GetAiringTodayUseCase {
-        return GetAiringTodayUseCase(repository)
-    }
+    fun provideGetAiringTodaysUseCase(repository: MovieRepository) = GetAiringTodayUseCase(repository)
 
     @Provides
     @Singleton
-    fun provideGetMovieDetailsUseCase(repository: MovieRepository): GetMovieDetailsUseCase {
-        return GetMovieDetailsUseCase(repository)
-    }
+    fun provideGetMovieDetailsUseCase(repository: MovieRepository) = GetMovieDetailsUseCase(repository)
 
     @Provides
     @Singleton
-    fun provideGetOnTvMoviesUseCase(repository: MovieRepository): GetOnTvMoviesUseCase {
-        return GetOnTvMoviesUseCase(repository)
-    }
+    fun provideGetOnTvMoviesUseCase(repository: MovieRepository) = GetOnTvMoviesUseCase(repository)
 
     @Provides
     @Singleton
-    fun provideGetPopularMovieUseCase(repository: MovieRepository): GetPopularMovieUseCase {
-        return GetPopularMovieUseCase(repository)
-    }
+    fun provideGetPopularMovieUseCase(repository: MovieRepository) = GetPopularMovieUseCase(repository)
 
     @Provides
     @Singleton
-    fun provideGetTopRatedMoviesUseCase(repository: MovieRepository): GetTopRatedMoviesUseCase {
-        return GetTopRatedMoviesUseCase(repository)
-    }
+    fun provideGetTopRatedMoviesUseCase(repository: MovieRepository) = GetTopRatedMoviesUseCase(repository)
 
     @Provides
     @Singleton
-    fun provideGetTVDetailUseCase(repository: MovieRepository): GetTVDetailUseCase {
-        return GetTVDetailUseCase(repository)
-    }
+    fun provideGetTVDetailUseCase(repository: MovieRepository) = GetTVDetailUseCase(repository)
 
     @Provides
     @Singleton
-    fun provideRequestTokenUseCase(repository: MovieRepository): GetRequestTokenUseCase {
-        return GetRequestTokenUseCase(repository)
-    }
+    fun provideRequestTokenUseCase(repository: MovieRepository) = GetRequestTokenUseCase(repository)
 
     @Provides
     @Singleton
-    fun provideSeasonDetailsUseCase(repository: MovieRepository): GetSeasonDetailsUseCase {
-        return GetSeasonDetailsUseCase(repository)
-    }
+    fun provideSeasonDetailsUseCase(repository: MovieRepository) = GetSeasonDetailsUseCase(repository)
 
     @Provides
     @Singleton
-    fun provideSearchResultUseCase(repository: MovieRepository): GetSearchResultUseCase {
-        return GetSearchResultUseCase(repository)
-    }
+    fun provideSearchResultUseCase(repository: MovieRepository) = GetSearchResultUseCase(repository)
 
     @Provides
     @Singleton
-    fun provideAccountDetailsUseCase(repository: MovieRepository): GetAccountDetailsUseCase {
-        return GetAccountDetailsUseCase(repository)
-    }
+    fun provideAccountDetailsUseCase(repository: MovieRepository) = GetAccountDetailsUseCase(repository)
 
     @Provides
     @Singleton
-    fun provideFavoriteMovieUseCase(repository: MovieRepository): GetFavoriteMovieUseCase {
-        return GetFavoriteMovieUseCase(repository)
-    }
+    fun provideFavoriteMovieUseCase(repository: MovieRepository) = GetFavoriteMovieUseCase(repository)
 
     @Provides
     @Singleton
-    fun provideSessionUseCase(repository: MovieRepository): GetSessionUseCase {
-        return GetSessionUseCase(repository)
-    }
+    fun provideSessionUseCase(repository: MovieRepository) = GetSessionUseCase(repository)
+
 }
