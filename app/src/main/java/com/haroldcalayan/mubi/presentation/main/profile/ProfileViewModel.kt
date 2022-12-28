@@ -15,14 +15,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel@Inject constructor(
-    private val getAccountDetailsUseCase: GetAccountDetailsUseCase
+    private val getAccountDetailsUseCase: GetAccountDetailsUseCase,
 ): ViewModel() {
 
     private val _state = mutableStateOf(AccountState())
     val state: State<AccountState> = _state
-
-    private val _deleteState = mutableStateOf(SessionState())
-    val deleteState: State<SessionState> = _deleteState
 
     fun getAccount(sessionId: String) {
         getAccountDetailsUseCase(sessionId).onEach { result ->

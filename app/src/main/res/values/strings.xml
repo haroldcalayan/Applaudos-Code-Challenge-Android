@@ -11,5 +11,8 @@
     <!--  Login  -->
     <string name="login_text_sign_in">Sign in to your account</string>
     <string name="login_button_login">Login</string>
+    <string name="alert_dialog_stay_message">STAY</string>
+    <string name="alert_dialog_leave_message">LEAVE</string>
+    <string name="alert_dialog_logout_message">Are you sure you want to leave?</string>
 
 </resources>
