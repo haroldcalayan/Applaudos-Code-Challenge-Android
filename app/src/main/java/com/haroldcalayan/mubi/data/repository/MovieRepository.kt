@@ -1,8 +1,13 @@
 package com.haroldcalayan.mubi.data.repository
 
 import com.haroldcalayan.mubi.common.base.BaseRepository
+import com.haroldcalayan.mubi.data.source.local.database.AppDatabase
 import com.haroldcalayan.mubi.data.source.remote.TMDBApi
 import com.haroldcalayan.mubi.data.source.remote.dto.*
+import com.haroldcalayan.mubi.domain.mapper.toFavoriteTVShow
+import com.haroldcalayan.mubi.domain.mapper.toMoviesDTO
+import okio.IOException
+import retrofit2.HttpException
 
 interface MovieRepository {
     suspend fun getPopularMovies(): MoviesDTO
@@ -17,7 +22,8 @@ interface MovieRepository {
 }
 
 class MovieRepositoryImpl(
-    private val api: TMDBApi
+    private val api: TMDBApi,
+    private val db: AppDatabase
 ) : BaseRepository(), MovieRepository {
 
     override suspend fun getPopularMovies(): MoviesDTO {
@@ -53,6 +59,21 @@ class MovieRepositoryImpl(
     }
 
     override suspend fun getFavoriteTVShows(accountId: Int, sessionId: String): MoviesDTO {
-        return api.getFavoriteTVShows(accountId = accountId, sessionId = sessionId)
+        return try {
+            val response = api.getFavoriteTVShows(accountId = accountId, sessionId = sessionId)
+            db.favoriteTVShowDao().nukeTable()
+            val favoriteTVShows = response.results?.map { it.toFavoriteTVShow() }
+            db.favoriteTVShowDao().insertAll(favoriteTVShows.orEmpty())
+            response
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+            when(ex) {
+                is HttpException, is IOException -> {
+                    val movies = db.favoriteTVShowDao().all()?.map { it.toMoviesDTO() }
+                    MoviesDTO(results = movies)
+                }
+                else -> throw ex
+            }
+        }
     }
 }

@@ -9,14 +9,14 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class GetFavoriteMovieUseCase @Inject constructor(
+class GetFavoriteTVShowsUseCase @Inject constructor(
     private val repository: MovieRepository
 ) {
     operator fun invoke(accountId: Int, sessionId: String): Flow<Response<MoviesDTO>> = flow {
         try {
             emit(Response.Loading())
-            val movies = repository.getFavoriteTVShows(accountId = accountId, sessionId = sessionId)
-            emit(Response.Success(movies))
+            val favoriteTVShows = repository.getFavoriteTVShows(accountId = accountId, sessionId = sessionId)
+            emit(Response.Success(favoriteTVShows))
         } catch (e: HttpException) {
             emit(Response.Error(e.localizedMessage ?: "An unexpected error occurred"))
         } catch (e: IOException) {

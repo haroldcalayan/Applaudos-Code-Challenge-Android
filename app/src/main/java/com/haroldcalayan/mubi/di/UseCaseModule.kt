@@ -55,7 +55,7 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideFavoriteMovieUseCase(repository: MovieRepository) = GetFavoriteMovieUseCase(repository)
+    fun provideFavoriteMovieUseCase(repository: MovieRepository) = GetFavoriteTVShowsUseCase(repository)
 
     @Provides
     @Singleton

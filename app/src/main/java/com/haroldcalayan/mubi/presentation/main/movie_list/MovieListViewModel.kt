@@ -22,6 +22,7 @@ class MovieListViewModel @Inject constructor(
     private val getAiringTodayUseCase: GetAiringTodayUseCase,
     private val getOnTvMoviesUseCase: GetOnTvMoviesUseCase
 ) : ViewModel() {
+
     private val _state = mutableStateOf(PopularMoviesState())
     val state: State<PopularMoviesState> = _state
 
