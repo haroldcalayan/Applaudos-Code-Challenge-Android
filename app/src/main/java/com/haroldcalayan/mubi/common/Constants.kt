@@ -2,8 +2,8 @@ package com.haroldcalayan.mubi.common
 
 object Constants {
 
-    const val CATEGORY_POPULAR = "Popular"
     const val CATEGORY_TOP_RATED = "Top Rated"
+    const val CATEGORY_POPULAR = "Popular"
     const val CATEGORY_ON_TV = "On TV"
     const val CATEGORY_AIRING_TODAY = "Airing Today"
 

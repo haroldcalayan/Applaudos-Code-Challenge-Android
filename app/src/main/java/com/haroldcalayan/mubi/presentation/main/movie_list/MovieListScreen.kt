@@ -7,7 +7,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,15 +43,16 @@ fun MovieListScreen(
     movieListViewModel: MovieListViewModel = hiltViewModel()
 ) {
     val state = movieListViewModel.state
-    val categories =
-        listOf(CATEGORY_POPULAR, CATEGORY_TOP_RATED, CATEGORY_ON_TV, CATEGORY_AIRING_TODAY)
+    val categories = listOf(
+        CATEGORY_TOP_RATED,
+        CATEGORY_POPULAR,
+        CATEGORY_ON_TV,
+        CATEGORY_AIRING_TODAY
+    )
 
-    var selectedOption by remember {
-        mutableStateOf(CATEGORY_POPULAR)
-    }
-    val onSelectionChange = { text: String ->
-        selectedOption = text
-    }
+    var selectedOption by remember { mutableStateOf(CATEGORY_TOP_RATED) }
+    val onSelectionChange = { text: String -> selectedOption = text }
+
     Column(
         modifier = Modifier
             .wrapContentSize()
@@ -79,8 +83,8 @@ fun MovieListScreen(
                             .clickable {
                                 onSelectionChange(categoryName)
                                 when (categoryName) {
-                                    CATEGORY_POPULAR -> movieListViewModel.getPopularMovies()
                                     CATEGORY_TOP_RATED -> movieListViewModel.getTopRatedMovies()
+                                    CATEGORY_POPULAR -> movieListViewModel.getPopularMovies()
                                     CATEGORY_ON_TV -> movieListViewModel.getOnTvMovies()
                                     CATEGORY_AIRING_TODAY -> movieListViewModel.getAiringToday()
                                 }
