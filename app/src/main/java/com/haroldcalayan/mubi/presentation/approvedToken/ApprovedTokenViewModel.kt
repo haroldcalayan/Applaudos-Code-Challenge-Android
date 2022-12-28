@@ -25,6 +25,9 @@ class ApprovedTokenViewModel  @Inject constructor(
                 is Response.Success -> {
                     _state.value = SessionState(data = result.data)
                 }
+                is Response.Error -> {
+                    _state.value = SessionState(error = "Session Denied.")
+                }
             }
         }.launchIn(viewModelScope)
     }

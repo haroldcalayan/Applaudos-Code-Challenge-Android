@@ -12,7 +12,11 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Box
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.lifecycleScope
@@ -62,8 +66,29 @@ class ApprovedTokenActivity : ComponentActivity() {
                     openMain()
                     finishAffinity()
                 }
+
+                if (it.error == "Session Denied.") {
+                    setContent {
+                        SimpleAlertDialog()
+                    }
+                }
             }
         }
+    }
+
+    @Composable
+    fun SimpleAlertDialog() {
+        AlertDialog(
+            onDismissRequest = { },
+            confirmButton = {
+                TextButton(onClick = {
+                    onBackPressed()
+                })
+                { Text(text = "OK") }
+            },
+            title = { Text(text = "Session Denied.") },
+            text = { Text(text = "Session Denied, Please try again!") }
+        )
     }
 
     @Composable
