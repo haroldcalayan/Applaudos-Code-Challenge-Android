@@ -15,4 +15,8 @@
     <string name="alert_dialog_leave_message">LEAVE</string>
     <string name="alert_dialog_logout_message">Are you sure you want to leave?</string>
 
+    <!--  Authentication  -->
+    <string name="authentication_session_denied_title">Session Denied.</string>
+    <string name="authentication_session_denied_message">Session Denied, Please try again!</string>
+
 </resources>

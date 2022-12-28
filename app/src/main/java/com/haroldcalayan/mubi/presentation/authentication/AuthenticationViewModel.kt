@@ -1,4 +1,4 @@
-package com.haroldcalayan.mubi.presentation.approvedToken
+package com.haroldcalayan.mubi.presentation.authentication
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
-class ApprovedTokenViewModel  @Inject constructor(
+class AuthenticationViewModel  @Inject constructor(
     private val sessionUseCase: GetSessionUseCase
 ) : ViewModel(){
 

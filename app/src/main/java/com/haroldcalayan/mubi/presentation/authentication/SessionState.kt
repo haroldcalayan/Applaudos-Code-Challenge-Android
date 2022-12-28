@@ -1,4 +1,4 @@
-package com.haroldcalayan.mubi.presentation.approvedToken
+package com.haroldcalayan.mubi.presentation.authentication
 
 import com.haroldcalayan.mubi.data.source.remote.dto.SessionDTO
 

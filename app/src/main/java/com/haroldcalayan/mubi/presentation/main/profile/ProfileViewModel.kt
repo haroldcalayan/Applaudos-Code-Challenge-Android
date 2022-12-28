@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.haroldcalayan.mubi.common.Response
 import com.haroldcalayan.mubi.domain.use_case.GetAccountDetailsUseCase
-import com.haroldcalayan.mubi.presentation.approvedToken.SessionState
 import com.haroldcalayan.mubi.presentation.main.state.AccountState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn

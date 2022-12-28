@@ -24,7 +24,7 @@ import com.haroldcalayan.mubi.R.drawable
 import com.haroldcalayan.mubi.R.string
 import com.haroldcalayan.mubi.common.Constants
 import com.haroldcalayan.mubi.common.ui.theme.MubiTheme
-import com.haroldcalayan.mubi.presentation.approvedToken.ApprovedTokenActivity
+import com.haroldcalayan.mubi.presentation.authentication.AuthenticationActivity
 import com.haroldcalayan.mubi.presentation.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -129,7 +129,7 @@ class LoginActivity : ComponentActivity() {
 
     private fun openAuth(requestToken: String) {
         startActivity(
-            ApprovedTokenActivity.newIntent(
+            AuthenticationActivity.newIntent(
                 this,
                 requestToken,
             )

@@ -1,4 +1,4 @@
-package com.haroldcalayan.mubi.presentation.approvedToken
+package com.haroldcalayan.mubi.presentation.authentication
 
 import android.content.Context
 import android.content.Intent
@@ -8,11 +8,9 @@ import android.preference.PreferenceManager
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.Box
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -21,30 +19,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.lifecycleScope
 import com.haroldcalayan.mubi.BuildConfig
+import com.haroldcalayan.mubi.R
 import com.haroldcalayan.mubi.common.Constants
 import com.haroldcalayan.mubi.presentation.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import timber.log.Timber
 
 @AndroidEntryPoint
-class ApprovedTokenActivity : ComponentActivity() {
+class AuthenticationActivity : ComponentActivity() {
 
-    private val viewModel: ApprovedTokenViewModel by viewModels()
+    private val viewModel: AuthenticationViewModel by viewModels()
     private lateinit var requestToken: String
     private lateinit var prefs: SharedPreferences
-
-    private inner class ApprovedTokenWebViewClient : WebViewClient() {
-        override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-            view.loadUrl(url)
-            if (url.contains("/allow")) {
-                viewModel.getRequestToken(requestToken)
-            } else if (url.contains("/deny")) {
-                onBackPressed()
-            }
-            return true
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,27 +38,7 @@ class ApprovedTokenActivity : ComponentActivity() {
         subscribeState()
         setContent {
             requestToken = intent.getStringExtra(KEY_REQUEST_TOKEN).orEmpty()
-            MainContent(requestToken)
-        }
-    }
-
-    private fun subscribeState() {
-        lifecycleScope.launchWhenCreated {
-            viewModel.state.collectLatest { it ->
-                it.data?.sessionID?.let { sessionId ->
-                    prefs.edit().putString(Constants.SESSION_ID, sessionId).apply()
-
-                    Timber.d("SESSION ID -> ${prefs.getString(Constants.SESSION_ID, "")}")
-                    openMain()
-                    finishAffinity()
-                }
-
-                if (it.error == "Session Denied.") {
-                    setContent {
-                        SimpleAlertDialog()
-                    }
-                }
-            }
+            AuthenticationContent(requestToken)
         }
     }
 
@@ -86,24 +52,21 @@ class ApprovedTokenActivity : ComponentActivity() {
                 })
                 { Text(text = "OK") }
             },
-            title = { Text(text = "Session Denied.") },
-            text = { Text(text = "Session Denied, Please try again!") }
+            title = { Text(text = getString(R.string.authentication_session_denied_title)) },
+            text = { Text(text = getString(R.string.authentication_session_denied_message)) }
         )
     }
 
     @Composable
-    fun MainContent(requestToken: String) {
+    fun AuthenticationContent(requestToken: String) {
         Scaffold(
-            content = { MyContent(requestToken) }
+            content = { WebviewContent(requestToken) }
         )
     }
 
     @Composable
-    fun MyContent(requestToken: String) {
-        Timber.d("mUrl -> $requestToken")
-        // Declare a string that contains a url
-        val mUrl = "${BuildConfig.BASE_AUTH_URL}${requestToken}"
-
+    fun WebviewContent(requestToken: String) {
+        val url = "${BuildConfig.BASE_AUTH_URL}${requestToken}"
         AndroidView(factory = {
             WebView(it).apply {
                 layoutParams = ViewGroup.LayoutParams(
@@ -113,23 +76,56 @@ class ApprovedTokenActivity : ComponentActivity() {
                 settings.javaScriptEnabled = true
                 webViewClient = ApprovedTokenWebViewClient()
 
-                loadUrl(mUrl)
+                loadUrl(url)
             }
         }, update = {
-            it.loadUrl(mUrl)
+            it.loadUrl(url)
         })
     }
 
+    private fun subscribeState() {
+        lifecycleScope.launchWhenCreated {
+            viewModel.state.collectLatest { it ->
+                it.data?.sessionID?.let { sessionId ->
+                    prefs.edit().putString(Constants.SESSION_ID, sessionId).apply()
+                    openMain()
+                    finishAffinity()
+                }
+
+                if (it.error.contains(RESPONSE_ERROR_SESSION_DENIED)) {
+                    setContent {
+                        SimpleAlertDialog()
+                    }
+                }
+            }
+        }
+    }
+
     private fun openMain() {
-        val intent = Intent(this@ApprovedTokenActivity, MainActivity::class.java)
+        val intent = Intent(this@AuthenticationActivity, MainActivity::class.java)
         startActivity(intent)
+    }
+
+    private inner class ApprovedTokenWebViewClient : WebViewClient() {
+        override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+            view.loadUrl(url)
+            if (url.contains(ENDPOINT_ALLOW)) {
+                viewModel.getRequestToken(requestToken)
+            } else if (url.contains(ENDPOINT_DENY)) {
+                onBackPressed()
+            }
+            return true
+        }
     }
 
     companion object {
         private const val KEY_REQUEST_TOKEN = "key_request_token"
+        private const val ENDPOINT_ALLOW = "/allow"
+        private const val ENDPOINT_DENY = "/deny"
+        private const val RESPONSE_ERROR_SESSION_DENIED = "Session Denied"
 
-        fun newIntent(context: Context?, token: String): Intent =
-            Intent(context, ApprovedTokenActivity::class.java).apply {
+        fun newIntent(context: Context?, token: String) =
+            Intent(context, AuthenticationActivity::class.java).apply {
                 putExtra(KEY_REQUEST_TOKEN, token)
             }
     }
