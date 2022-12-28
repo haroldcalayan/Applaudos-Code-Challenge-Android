@@ -1,5 +1,6 @@
 package com.haroldcalayan.mubi.di
 
+import com.haroldcalayan.mubi.data.repository.AuthenticationRepository
 import com.haroldcalayan.mubi.data.repository.MovieRepository
 import com.haroldcalayan.mubi.domain.use_case.*
 import dagger.Module
@@ -38,7 +39,7 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideRequestTokenUseCase(repository: MovieRepository) = GetRequestTokenUseCase(repository)
+    fun provideRequestTokenUseCase(repository: AuthenticationRepository) = GetRequestTokenUseCase(repository)
 
     @Provides
     @Singleton
@@ -50,7 +51,7 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideAccountDetailsUseCase(repository: MovieRepository) = GetAccountDetailsUseCase(repository)
+    fun provideAccountDetailsUseCase(repository: AuthenticationRepository) = GetAccountDetailsUseCase(repository)
 
     @Provides
     @Singleton
@@ -58,6 +59,6 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideSessionUseCase(repository: MovieRepository) = GetSessionUseCase(repository)
+    fun provideSessionUseCase(repository: AuthenticationRepository) = GetSessionUseCase(repository)
 
 }

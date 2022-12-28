@@ -1,6 +1,7 @@
 package com.haroldcalayan.mubi.domain.use_case
 
 import com.haroldcalayan.mubi.common.Response
+import com.haroldcalayan.mubi.data.repository.AuthenticationRepository
 import com.haroldcalayan.mubi.data.repository.MovieRepository
 import com.haroldcalayan.mubi.data.source.remote.dto.SessionDTO
 import kotlinx.coroutines.flow.Flow
@@ -13,7 +14,7 @@ import java.io.IOException
 import javax.inject.Inject
 
 class GetSessionUseCase @Inject constructor(
-    private val repository: MovieRepository
+    private val repository: AuthenticationRepository
 ) {
     operator fun invoke(requestToken: String): Flow<Response<SessionDTO>> = flow {
         try {

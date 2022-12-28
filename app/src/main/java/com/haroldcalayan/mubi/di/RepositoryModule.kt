@@ -1,5 +1,7 @@
 package com.haroldcalayan.mubi.di
 
+import com.haroldcalayan.mubi.data.repository.AuthenticationRepository
+import com.haroldcalayan.mubi.data.repository.AuthenticationRepositoryImpl
 import com.haroldcalayan.mubi.data.repository.MovieRepository
 import com.haroldcalayan.mubi.data.repository.MovieRepositoryImpl
 import com.haroldcalayan.mubi.data.source.remote.TMDBApi
@@ -15,7 +17,13 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideTMDBRepository(api: TMDBApi): MovieRepository {
+    fun provideMovieRepository(api: TMDBApi): MovieRepository {
         return MovieRepositoryImpl(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthenticationRepository(api: TMDBApi): AuthenticationRepository {
+        return AuthenticationRepositoryImpl(api)
     }
 }
