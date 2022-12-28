@@ -103,8 +103,7 @@ fun MovieListScreen(
 
         LazyVerticalGrid(
             state = rememberLazyListState(),
-            cells = GridCells.Fixed(2),
-            modifier = Modifier.fillMaxHeight(0.9f)
+            cells = GridCells.Fixed(2)
         ) {
             items(state.value.popularMovies?.results ?: emptyList()) { movie ->
                 Box(
