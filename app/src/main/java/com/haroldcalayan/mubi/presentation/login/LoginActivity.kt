@@ -1,9 +1,7 @@
 package com.haroldcalayan.mubi.presentation.login
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.preference.PreferenceManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -22,7 +20,6 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import com.haroldcalayan.mubi.R.drawable
 import com.haroldcalayan.mubi.R.string
-import com.haroldcalayan.mubi.common.Constants
 import com.haroldcalayan.mubi.common.ui.theme.MubiTheme
 import com.haroldcalayan.mubi.presentation.authentication.AuthenticationActivity
 import com.haroldcalayan.mubi.presentation.main.MainActivity
@@ -33,11 +30,9 @@ import kotlinx.coroutines.flow.collectLatest
 class LoginActivity : ComponentActivity() {
 
     private val viewModel: LoginViewModel by viewModels()
-    private lateinit var prefs: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        prefs = PreferenceManager.getDefaultSharedPreferences(this)
         installSplashScreen().apply {
             this.setKeepOnScreenCondition {
                 viewModel.isLoading.value
@@ -125,7 +120,7 @@ class LoginActivity : ComponentActivity() {
         startActivity(intent)
     }
 
-    private fun hasValidSession() = !prefs.getString(Constants.PREF_KEY_SESSION_ID, "").isNullOrBlank()
+    private fun hasValidSession() = viewModel.sessionID.value.isNotEmpty()
 
     private fun openAuth(requestToken: String) {
         startActivity(

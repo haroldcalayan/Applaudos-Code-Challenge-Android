@@ -16,6 +16,7 @@ import javax.inject.Inject
 class GetSessionUseCase @Inject constructor(
     private val repository: AuthenticationRepository
 ) {
+
     operator fun invoke(requestToken: String): Flow<Response<SessionDTO>> = flow {
         try {
             emit(Response.Loading())

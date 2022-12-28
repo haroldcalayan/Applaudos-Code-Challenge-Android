@@ -5,6 +5,7 @@ import com.haroldcalayan.mubi.data.repository.AuthenticationRepositoryImpl
 import com.haroldcalayan.mubi.data.repository.MovieRepository
 import com.haroldcalayan.mubi.data.repository.MovieRepositoryImpl
 import com.haroldcalayan.mubi.data.source.local.database.AppDatabase
+import com.haroldcalayan.mubi.data.source.local.pref.PreferenceManager
 import com.haroldcalayan.mubi.data.source.remote.TMDBApi
 import dagger.Module
 import dagger.Provides
@@ -24,7 +25,7 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideAuthenticationRepository(api: TMDBApi): AuthenticationRepository {
-        return AuthenticationRepositoryImpl(api)
+    fun provideAuthenticationRepository(api: TMDBApi, pref: PreferenceManager): AuthenticationRepository {
+        return AuthenticationRepositoryImpl(api, pref)
     }
 }

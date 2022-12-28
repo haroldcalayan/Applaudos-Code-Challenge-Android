@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.haroldcalayan.mubi.common.Constants
 import com.haroldcalayan.mubi.common.Response
 import com.haroldcalayan.mubi.domain.use_case.GetRequestTokenUseCase
+import com.haroldcalayan.mubi.domain.use_case.GetSessionIDUseCase
 import com.haroldcalayan.mubi.presentation.main.state.PopularMoviesState
 import com.haroldcalayan.mubi.presentation.main.state.RequestTokenState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,8 +21,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val requestTokenUseCase: GetRequestTokenUseCase
+    private val requestTokenUseCase: GetRequestTokenUseCase,
+    private val getSessionIDUseCase: GetSessionIDUseCase
 ) : ViewModel() {
+
     private val _state = mutableStateOf(PopularMoviesState())
     val state: State<PopularMoviesState> = _state
 
@@ -31,7 +34,11 @@ class LoginViewModel @Inject constructor(
     private val _requestState = MutableStateFlow(RequestTokenState())
     val requestState = _requestState.asStateFlow()
 
+    private val _sessionID = MutableStateFlow("")
+    val sessionID = _sessionID.asStateFlow()
+
     init {
+        getSessionID()
         viewModelScope.launch {
             delay(Constants.SPLASH_SCREEN_LIFE)
             _isLoading.value = false
@@ -43,6 +50,16 @@ class LoginViewModel @Inject constructor(
             when (result) {
                 is Response.Success -> {
                     _requestState.value = RequestTokenState(data = result.data)
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    private fun getSessionID() {
+        getSessionIDUseCase().onEach { result ->
+            when (result) {
+                is Response.Success -> {
+                    _sessionID.value = result.data.orEmpty()
                 }
             }
         }.launchIn(viewModelScope)

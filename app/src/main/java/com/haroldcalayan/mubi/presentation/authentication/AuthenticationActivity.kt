@@ -20,7 +20,6 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.lifecycleScope
 import com.haroldcalayan.mubi.BuildConfig
 import com.haroldcalayan.mubi.R
-import com.haroldcalayan.mubi.common.Constants
 import com.haroldcalayan.mubi.presentation.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -85,19 +84,15 @@ class AuthenticationActivity : ComponentActivity() {
 
     private fun subscribeState() {
         lifecycleScope.launchWhenCreated {
-            viewModel.state.collectLatest { it ->
-                it.data?.let { data ->
-                    prefs.edit().apply {
-                        putString(Constants.PREF_KEY_SESSION_ID, data.sessionID.orEmpty())
-                        apply()
-                    }
+            viewModel.state.collectLatest {
+                it.data?.let {
                     openMain()
                     finishAffinity()
-                }
-
-                if (it.error.contains(RESPONSE_ERROR_SESSION_DENIED)) {
-                    setContent {
-                        SimpleAlertDialog()
+                }.run {
+                    if (it.error.contains(RESPONSE_ERROR_SESSION_DENIED)) {
+                        setContent {
+                            SimpleAlertDialog()
+                        }
                     }
                 }
             }
