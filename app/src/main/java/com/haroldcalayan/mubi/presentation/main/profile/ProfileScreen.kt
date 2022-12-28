@@ -24,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.google.accompanist.coil.rememberCoilPainter
 import com.haroldcalayan.mubi.BuildConfig
@@ -40,16 +41,10 @@ fun ProfileScreen(
 ) {
 
     val context = LocalContext.current
-    val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-    val sessionId = prefs.getString(Constants.PREF_KEY_SESSION_ID, null)
     val accountState = profileViewModel.accountState.value
 
     val openDialog = remember {
         mutableStateOf(false)
-    }
-
-    sessionId?.let {
-        profileViewModel.getAccount(it)
     }
 
     accountState.data?.let {
@@ -140,7 +135,7 @@ fun ProfileScreen(
                 confirmButton = {
                     TextButton(onClick = {
                         openDialog.value = false
-                        prefs.edit().remove(Constants.PREF_KEY_SESSION_ID).apply();
+                        profileViewModel.logout()
                         val intent = Intent(context, LoginActivity::class.java)
                         context.startActivity(intent)
                         activity.finishAffinity()

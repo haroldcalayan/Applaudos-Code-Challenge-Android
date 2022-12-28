@@ -7,9 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.haroldcalayan.mubi.common.Response
 import com.haroldcalayan.mubi.domain.use_case.GetAccountDetailsUseCase
 import com.haroldcalayan.mubi.domain.use_case.GetFavoriteTVShowsUseCase
+import com.haroldcalayan.mubi.domain.use_case.GetSessionIDUseCase
+import com.haroldcalayan.mubi.domain.use_case.LogoutUseCase
 import com.haroldcalayan.mubi.presentation.main.state.AccountState
 import com.haroldcalayan.mubi.presentation.main.state.PopularMoviesState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
@@ -17,8 +21,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel@Inject constructor(
+    private val getSessionIDUseCase: GetSessionIDUseCase,
     private val getAccountDetailsUseCase: GetAccountDetailsUseCase,
-    private val getFavoriteTVShowsUseCase: GetFavoriteTVShowsUseCase
+    private val getFavoriteTVShowsUseCase: GetFavoriteTVShowsUseCase,
+    private val logoutUseCase: LogoutUseCase
 ): ViewModel() {
 
     private val _accountState = mutableStateOf(AccountState())
@@ -26,6 +32,10 @@ class ProfileViewModel@Inject constructor(
 
     private val _favoriteTVShowsState = mutableStateOf(PopularMoviesState())
     val favoriteTVShowsState: State<PopularMoviesState> = _favoriteTVShowsState
+
+    init {
+        getSessionID()
+    }
 
     fun getAccount(sessionId: String) {
         getAccountDetailsUseCase(sessionId).onEach { result ->
@@ -38,7 +48,19 @@ class ProfileViewModel@Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun getFavoriteTVShows(accountId: Int, sessionId: String) {
+    fun logout() {
+        logoutUseCase().launchIn(viewModelScope)
+    }
+
+    private fun getSessionID() {
+        getSessionIDUseCase().onEach { result ->
+            when (result) {
+                is Response.Success -> result.data?.let { getAccount(it) }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    private fun getFavoriteTVShows(accountId: Int, sessionId: String) {
         getFavoriteTVShowsUseCase(accountId, sessionId).onEach { result ->
             when(result) {
                 is Response.Success -> {

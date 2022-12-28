@@ -19,6 +19,7 @@ interface MovieRepository {
     suspend fun getSeasonDetails(tvId: Int, seasonNumber: Int): SeasonDTO
     suspend fun searchMovie(query: String): SearchResultDTO
     suspend fun getFavoriteTVShows(accountId: Int, sessionId: String): MoviesDTO
+    suspend fun clearLocalData()
 }
 
 class MovieRepositoryImpl(
@@ -75,5 +76,9 @@ class MovieRepositoryImpl(
                 else -> throw ex
             }
         }
+    }
+
+    override suspend fun clearLocalData() {
+        db.favoriteTVShowDao().nukeTable()
     }
 }
