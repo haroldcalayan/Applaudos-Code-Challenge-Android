@@ -6,7 +6,7 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class AccountDTO(
     val avatar: Avatar? = null,
-    val id: Long? = null,
+    val id: Int? = null,
 
     @Json(name = "iso_639_1")
     val iso639_1: String? = null,

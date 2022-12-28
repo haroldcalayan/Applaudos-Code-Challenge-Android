@@ -7,20 +7,20 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -38,19 +38,21 @@ fun ProfileScreen(
     navController: NavController,
     profileViewModel: ProfileViewModel = hiltViewModel()
 ) {
+
     val context = LocalContext.current
     val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-    val sessionId = prefs.getString(Constants.SESSION_ID, "")
-
-    sessionId?.let { profileViewModel.getAccount(it) }
-
-    val state = profileViewModel.state.value
+    val sessionId = prefs.getString(Constants.PREF_KEY_SESSION_ID, null)
+    val accountState = profileViewModel.accountState.value
 
     val openDialog = remember {
         mutableStateOf(false)
     }
 
-    state.data.let {
+    sessionId?.let {
+        profileViewModel.getAccount(it)
+    }
+
+    accountState.data?.let {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -137,11 +139,11 @@ fun ProfileScreen(
                 },
                 confirmButton = {
                     TextButton(onClick = {
-                        prefs.edit().remove(Constants.SESSION_ID).apply();
+                        openDialog.value = false
+                        prefs.edit().remove(Constants.PREF_KEY_SESSION_ID).apply();
                         val intent = Intent(context, LoginActivity::class.java)
                         context.startActivity(intent)
                         activity.finishAffinity()
-                        openDialog.value = false
                     })
                     { Text(text = stringResource(R.string.alert_dialog_leave_message)) }
                 },

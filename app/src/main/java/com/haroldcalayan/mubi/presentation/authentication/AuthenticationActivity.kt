@@ -86,8 +86,11 @@ class AuthenticationActivity : ComponentActivity() {
     private fun subscribeState() {
         lifecycleScope.launchWhenCreated {
             viewModel.state.collectLatest { it ->
-                it.data?.sessionID?.let { sessionId ->
-                    prefs.edit().putString(Constants.SESSION_ID, sessionId).apply()
+                it.data?.let { data ->
+                    prefs.edit().apply {
+                        putString(Constants.PREF_KEY_SESSION_ID, data.sessionID.orEmpty())
+                        apply()
+                    }
                     openMain()
                     finishAffinity()
                 }

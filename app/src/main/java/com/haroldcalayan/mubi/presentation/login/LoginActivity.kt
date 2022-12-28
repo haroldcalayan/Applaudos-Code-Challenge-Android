@@ -125,7 +125,7 @@ class LoginActivity : ComponentActivity() {
         startActivity(intent)
     }
 
-    private fun hasValidSession() = !prefs.getString(Constants.SESSION_ID, "").isNullOrBlank()
+    private fun hasValidSession() = !prefs.getString(Constants.PREF_KEY_SESSION_ID, "").isNullOrBlank()
 
     private fun openAuth(requestToken: String) {
         startActivity(
