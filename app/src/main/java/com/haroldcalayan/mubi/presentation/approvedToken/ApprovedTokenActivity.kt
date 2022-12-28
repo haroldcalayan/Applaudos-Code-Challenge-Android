@@ -33,9 +33,9 @@ class ApprovedTokenActivity : ComponentActivity() {
     private inner class ApprovedTokenWebViewClient : WebViewClient() {
         override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
             view.loadUrl(url)
-            if (url.contains(Constants.APPROVED_TOKEN_ALLOW)) {
+            if (url.contains("/allow")) {
                 viewModel.getRequestToken(requestToken)
-            } else if (url.contains(Constants.APPROVE_TOKEN_DENY)) {
+            } else if (url.contains("/deny")) {
                 onBackPressed()
             }
             return true

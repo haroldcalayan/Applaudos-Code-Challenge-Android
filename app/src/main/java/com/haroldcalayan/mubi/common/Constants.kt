@@ -12,7 +12,4 @@ object Constants {
     const val SPLASH_SCREEN_LIFE = 3 * ONE_SECOND
 
     const val SESSION_ID = "sessionId"
-
-    const val APPROVED_TOKEN_ALLOW = "/allow"
-    const val APPROVE_TOKEN_DENY = "/deny"
 }
