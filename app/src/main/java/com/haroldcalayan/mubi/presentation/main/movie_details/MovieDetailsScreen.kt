@@ -3,13 +3,14 @@ package com.haroldcalayan.mubi.presentation.main.movie_details
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -66,6 +67,25 @@ fun MovieDetailsScreen(
                         )
                         .fillMaxSize()
                 )
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(5.dp),
+                    contentAlignment = Alignment.TopStart,
+                ) {
+                    IconButton(
+                        modifier = Modifier
+                            .alpha(ContentAlpha.medium),
+                        onClick = { navController.popBackStack() }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Back",
+                            tint = Color.White
+                        )
+                    }
+                }
 
                 Box(
                     modifier = Modifier
