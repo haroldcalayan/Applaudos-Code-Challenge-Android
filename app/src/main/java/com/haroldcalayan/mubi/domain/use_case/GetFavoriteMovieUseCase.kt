@@ -15,7 +15,7 @@ class GetFavoriteMovieUseCase @Inject constructor(
     operator fun invoke(accountId: Int, sessionId: String): Flow<Response<MoviesDTO>> = flow {
         try {
             emit(Response.Loading())
-            val movies = repository.getFavoriteMovie(accountId = accountId, sessionId = sessionId)
+            val movies = repository.getFavoriteTVShows(accountId = accountId, sessionId = sessionId)
             emit(Response.Success(movies))
         } catch (e: HttpException) {
             emit(Response.Error(e.localizedMessage ?: "An unexpected error occurred"))

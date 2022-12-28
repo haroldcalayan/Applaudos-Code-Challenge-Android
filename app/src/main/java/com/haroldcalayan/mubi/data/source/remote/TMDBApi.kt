@@ -3,7 +3,6 @@ package com.haroldcalayan.mubi.data.source.remote
 import com.haroldcalayan.mubi.BuildConfig
 import com.haroldcalayan.mubi.data.source.remote.dto.*
 import okhttp3.RequestBody
-import okhttp3.ResponseBody
 import retrofit2.http.*
 
 interface TMDBApi {
@@ -25,8 +24,8 @@ interface TMDBApi {
         @Query("session_id") sessionId: String
     ): AccountDTO
 
-    @GET("3/account/{account_id}/favorite/movies")
-    suspend fun getFavoriteMovies(
+    @GET("3/account/{account_id}/favorite/tv")
+    suspend fun getFavoriteTVShows(
         @Path("account_id") accountId: Int,
         @Query("api_key") apiKey: String? = BuildConfig.BASE_APP_API_KEY,
         @Query("session_id") sessionId: String

@@ -4,7 +4,6 @@ import com.haroldcalayan.mubi.common.base.BaseRepository
 import com.haroldcalayan.mubi.data.source.remote.TMDBApi
 import com.haroldcalayan.mubi.data.source.remote.dto.*
 import okhttp3.RequestBody
-import okhttp3.ResponseBody
 
 interface MovieRepository {
     suspend fun getPopularMovies(): MoviesDTO
@@ -18,7 +17,7 @@ interface MovieRepository {
     suspend fun searchMovie(query: String): SearchResultDTO
     suspend fun getSession(request: RequestBody): SessionDTO
     suspend fun getAccount(sessionId: String): AccountDTO
-    suspend fun getFavoriteMovie(accountId: Int, sessionId: String): MoviesDTO
+    suspend fun getFavoriteTVShows(accountId: Int, sessionId: String): MoviesDTO
 }
 
 class MovieRepositoryImpl(
@@ -69,7 +68,7 @@ class MovieRepositoryImpl(
         return api.getAccount(sessionId = sessiontId)
     }
 
-    override suspend fun getFavoriteMovie(accountId: Int, sessionId: String): MoviesDTO {
-        return api.getFavoriteMovies(accountId = accountId, sessionId = sessionId)
+    override suspend fun getFavoriteTVShows(accountId: Int, sessionId: String): MoviesDTO {
+        return api.getFavoriteTVShows(accountId = accountId, sessionId = sessionId)
     }
 }

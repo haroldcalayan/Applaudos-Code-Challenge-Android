@@ -23,6 +23,8 @@ data class MoviesDTO(
         val id: Long? = null,
         @Json(name ="original_language")
         val originalLanguage: String? = null,
+        @Json(name = "original_name")
+        val originalName: String? = null,
         @Json(name ="original_title")
         val originalTitle: String? = null,
         val overview: String? = null,
