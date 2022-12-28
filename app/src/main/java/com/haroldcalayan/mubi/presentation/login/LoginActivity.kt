@@ -54,9 +54,18 @@ class LoginActivity : ComponentActivity() {
         subscribeState()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        if (hasValidSession()) {
+            openMain()
+            finishAffinity()
+        }
+    }
+
     private fun subscribeState() {
         lifecycleScope.launchWhenCreated {
-            viewModel.requestState.collectLatest { it ->
+            viewModel.requestState.collectLatest {
                 it.data?.requestToken?.let { token ->
                     openAuth(token)
                 }
