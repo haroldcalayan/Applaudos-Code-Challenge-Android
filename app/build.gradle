@@ -26,6 +26,8 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        buildConfigField "String", "DATABASE_NAME", DATABASE_NAME
     }
 
     signingConfigs {
