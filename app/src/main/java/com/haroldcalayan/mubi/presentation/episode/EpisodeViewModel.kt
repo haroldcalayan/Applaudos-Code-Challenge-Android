@@ -3,9 +3,9 @@ package com.haroldcalayan.mubi.presentation.episode
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.haroldcalayan.mubi.common.Response
+import com.haroldcalayan.mubi.common.base.BaseViewModel
 import com.haroldcalayan.mubi.domain.use_case.GetSeasonDetailsUseCase
 import com.haroldcalayan.mubi.presentation.main.state.EpisodeState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +17,7 @@ import javax.inject.Inject
 class EpisodeViewModel@Inject constructor(
     private val seasonDetailsUseCase: GetSeasonDetailsUseCase,
     savedStateHandle: SavedStateHandle
-): ViewModel() {
+): BaseViewModel() {
 
     private val _state = mutableStateOf(EpisodeState())
     val state: State<EpisodeState> = _state

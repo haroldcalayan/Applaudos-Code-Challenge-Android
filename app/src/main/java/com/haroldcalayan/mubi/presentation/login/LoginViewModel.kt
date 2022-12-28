@@ -2,10 +2,10 @@ package com.haroldcalayan.mubi.presentation.login
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.haroldcalayan.mubi.common.Constants
 import com.haroldcalayan.mubi.common.Response
+import com.haroldcalayan.mubi.common.base.BaseViewModel
 import com.haroldcalayan.mubi.domain.use_case.GetRequestTokenUseCase
 import com.haroldcalayan.mubi.domain.use_case.GetSessionIDUseCase
 import com.haroldcalayan.mubi.presentation.main.state.PopularMoviesState
@@ -23,7 +23,7 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val requestTokenUseCase: GetRequestTokenUseCase,
     private val getSessionIDUseCase: GetSessionIDUseCase
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val _state = mutableStateOf(PopularMoviesState())
     val state: State<PopularMoviesState> = _state
