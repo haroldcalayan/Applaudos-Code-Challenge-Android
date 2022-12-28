@@ -1,4 +1,4 @@
-package com.haroldcalayan.mubi.presentation.episode_screen
+package com.haroldcalayan.mubi.presentation.episode
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -12,7 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,7 +29,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.coil.rememberCoilPainter
 import com.haroldcalayan.mubi.BuildConfig
-import com.haroldcalayan.mubi.R.*
+import com.haroldcalayan.mubi.R.color
+import com.haroldcalayan.mubi.R.drawable
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -40,8 +41,7 @@ fun EpisodeScreen(
     val state = episodeViewModel.state.value
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
         Box(
             modifier = Modifier.fillMaxSize()

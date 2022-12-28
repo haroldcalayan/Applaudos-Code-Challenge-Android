@@ -1,4 +1,4 @@
-package com.haroldcalayan.mubi.presentation.episode_screen
+package com.haroldcalayan.mubi.presentation.episode
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf

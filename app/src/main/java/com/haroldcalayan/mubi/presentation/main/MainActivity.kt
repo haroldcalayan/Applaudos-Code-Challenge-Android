@@ -30,7 +30,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.haroldcalayan.mubi.R
 import com.haroldcalayan.mubi.common.ui.theme.MubiTheme
-import com.haroldcalayan.mubi.presentation.episode_screen.EpisodeScreen
+import com.haroldcalayan.mubi.presentation.episode.EpisodeScreen
 import com.haroldcalayan.mubi.presentation.main.movie_details.MovieDetailsScreen
 import com.haroldcalayan.mubi.presentation.main.movie_list.MovieListScreen
 import com.haroldcalayan.mubi.presentation.main.profile.ProfileScreen
