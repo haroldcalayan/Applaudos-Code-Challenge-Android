@@ -28,6 +28,7 @@ android {
         }
 
         buildConfigField "String", "DATABASE_NAME", DATABASE_NAME
+        buildConfigField "String", "SHARED_PREF_NAME", SHARED_PREF_NAME
     }
 
     signingConfigs {
