@@ -27,7 +27,7 @@ class MovieListViewModel @Inject constructor(
     val state: State<PopularMoviesState> = _state
 
     init {
-        getPopularMovies()
+        getTopRatedMovies()
     }
 
     fun getPopularMovies() {
