@@ -18,6 +18,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
@@ -28,10 +30,10 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.haroldcalayan.mubi.R
 import com.haroldcalayan.mubi.common.ui.theme.MubiTheme
-import com.haroldcalayan.mubi.common.utils.showToastShort
 import com.haroldcalayan.mubi.presentation.episode_screen.EpisodeScreen
 import com.haroldcalayan.mubi.presentation.main.movie_details.MovieDetailsScreen
 import com.haroldcalayan.mubi.presentation.main.movie_list.MovieListScreen
+import com.haroldcalayan.mubi.presentation.main.profile.ProfileScreen
 import com.haroldcalayan.mubi.presentation.main.tv_details.TVDetailsScreen
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -72,7 +74,9 @@ class MainActivity : ComponentActivity() {
                                     IconButton(onClick = { expandedSearchBar = true }) {
                                         Icon(Icons.Rounded.Search, "Search")
                                     }
-                                    IconButton(onClick = { openProfile() }) {
+                                    IconButton(onClick = {
+                                        navController.navigate(Screen.ProfileScreen.route)
+                                    }) {
                                         Icon(Icons.Rounded.Person, "Profile")
                                     }
                                 }
@@ -104,15 +108,17 @@ class MainActivity : ComponentActivity() {
                                 ) {
                                     EpisodeScreen(navController)
                                 }
+                                composable(
+                                    route = Screen.ProfileScreen.route
+                                ) {
+                                    ProfileScreen(this@MainActivity, navController)
+                                }
                             }
                         }
                     })
+
             }
         }
-    }
-
-    private fun openProfile() {
-        showToastShort("Open Profile")
     }
 
     @Composable
